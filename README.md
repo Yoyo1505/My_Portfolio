@@ -1,6 +1,6 @@
 # My_Portfolio
 
-Six applied finance and AI projects, each with a live browser demo, its source code, tests where it makes sense, and recorded screenshots. All data is synthetic or public market data; nothing here comes from a real employer or customer.
+Applied finance and AI projects, each with a live browser demo, its source code, tests where it makes sense, and recorded screenshots. All data is synthetic or public market data; nothing here comes from a real employer or customer.
 
 ![Opex Control tour](docs/opex-control/media/tour.gif)
 
@@ -13,6 +13,8 @@ Six applied finance and AI projects, each with a live browser demo, its source c
 | 3 | **Paper trading** | 20/100 moving-average strategy on a 7-asset portfolio with 100,000 USD of simulated capital and a daily-updated ledger. | [`docs/paper-trading`](docs/paper-trading/index.html) | [`quant-lab/paper_trading`](quant-lab/paper_trading) |
 | 4 | **Quantitative finance lab** | Executed notebook: VaR/CVaR, Kupiec, Markowitz, ARIMA/GARCH, Monte Carlo, Black-Scholes, backtesting, pairs trading, HMM, SGD. | [`docs/quant-lab`](docs/quant-lab/index.html) | [`quant-lab/`](quant-lab) |
 | 5 | **Territory Dashboard** | Territorial spend dashboard with drill-down, account trees and quarterly views. Streamlit app plus a static demo. | [`docs/dashboard`](docs/dashboard/index.html) | [`dashboard/`](dashboard) |
+| 7 | **Notebooks** | 30 notebooks with saved outputs: risk, trading, quantum algorithms, causal inference, LLM engineering, sports analytics. | [`notebooks/README.md`](notebooks/README.md) | [`notebooks/`](notebooks) |
+| 7 | **Notebooks** | 30 notebooks with saved outputs: risk, trading, quantum algorithms, causal inference, LLM engineering, sports analytics. | [`notebooks/README.md`](notebooks/README.md) | [`notebooks/`](notebooks) |
 | 6 | **Cashi RAG** | Retrieval over docs and code chunks with entity detection. Streamlit app plus a static demo. | [`docs/chatbot`](docs/chatbot/index.html) | [`chatbot/`](chatbot) |
 
 Once Pages is enabled the demos are served at `https://<user>.github.io/<repo>/`.
