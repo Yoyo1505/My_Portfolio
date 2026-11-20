@@ -2,7 +2,9 @@
 
 Production-style weekly spend dashboard for a multi-division retail group, with a data pipeline, an analytics warehouse, a multi-tab Plotly Dash app, role-based users, Excel/PDF exports and a rule-based chat assistant (Cashi) that needs no LLM.
 
-![Tour](../docs/dash-app/media/tour.gif)
+![Tour](demo/tour.gif)
+
+Demo recording: [`demo/tour.gif`](demo/tour.gif). Code: [`codigo/`](codigo) (pipeline), [`dash_app/`](dash_app) (app), [`rag/`](rag) (assistant and monitoring), [`synthetic/`](synthetic) (demo data and recorder).
 
 This folder is the source code of the application plus a synthetic-data generator so it runs end to end. Company identifiers, credentials, internal hostnames, people, catalogs, real figures and branded assets were removed or replaced with neutral placeholders (`Aurora`, `<SHARED_DRIVE>`, `sql-server.example.local`). There is **no real data**. `synthetic/make_consolidado.py` writes the same input files the pipeline expects (weekly actual, plan and forecast extracts, the structure and account catalogs in Excel, a forecast workbook and demo users), so the real pipeline and the real app run unchanged. The recorded tour above was captured from the app running on that data. A smaller, fully rewritten version of the same ideas is in [`../opex-control`](../opex-control).
 

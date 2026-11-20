@@ -2,6 +2,10 @@
 
 An LLM-powered support assistant for a fictional buy-now-pay-later company (**Payly**). It answers policy questions, looks up a customer's own orders and installments, combines both when the answer depends on the two, and hands risky cases to a human, with structural guardrails around data access and invented numbers.
 
+![Agent tour](demo/tour.gif)
+
+Demo recording with the real local model: [`demo/tour.gif`](demo/tour.gif). Code: [`agent/`](agent), [`eval/`](eval), [`web/`](web), [`tests/`](tests).
+
 Everything here is synthetic: 12 policy documents, 8 customers and 14 orders (`data/build_data.py`, "today" is 2026-11-20).
 
 ## How a request flows

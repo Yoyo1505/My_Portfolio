@@ -1,5 +1,9 @@
 # Territory Dashboard
 
+![Demo](demo/territory-dashboard.gif)
+
+Static demo recording: [`demo/territory-dashboard.gif`](demo/territory-dashboard.gif).
+
 Interactive **territorial finance dashboard** with drill-down (division → PDC), account trees, cierres, and quarterly views.
 
 This project includes **two runnable versions**:

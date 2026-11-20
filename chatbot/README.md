@@ -1,5 +1,9 @@
 # Cashi RAG
 
+![Demo](demo/cashi-rag.gif)
+
+Static demo recording: [`demo/cashi-rag.gif`](demo/cashi-rag.gif).
+
 Local **Retrieval-Augmented Generation** for financial/code knowledge: indexing, search, optional numeric engine, HTTP API, **Streamlit UI**, and a **static HTML/JS** demo for GitHub Pages.
 
 ---
