@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Payly Support Agent</title>
+<style>
+:root{--bg:#f5f3ff;--panel:#fff;--text:#1e1b3a;--muted:#6b6890;--line:#e4e0fb;--accent:#6d28d9;--ok:#15803d;--warn:#b45309}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#1e1b3a;color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:18px}header span{color:#c4b5fd;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-right:10px}
+main{display:grid;grid-template-columns:340px 1fr;gap:18px;max-width:1200px;margin:20px auto;padding:0 18px}
+@media(max-width:820px){main{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+h3{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+select,input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
+.order{border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px;font-size:13px}
+.order b{display:block}.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#ede9fe;color:var(--accent)}
+.chat{display:flex;flex-direction:column;height:calc(100vh - 130px);min-height:480px}
+#thread{flex:1;overflow:auto;padding:4px}
+.u{align-self:flex-end;background:var(--accent);color:#fff;padding:10px 14px;border-radius:14px 14px 2px 14px;margin:8px 0;max-width:80%;width:fit-content;margin-left:auto}
+.b{background:#f3f0ff;padding:12px 14px;border-radius:14px 14px 14px 2px;margin:8px 0;max-width:86%}
+.meta{font-size:11px;color:var(--muted);margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:1px 8px;border-radius:99px;background:#fff;border:1px solid var(--line)}
+.pill.esc{color:var(--warn);border-color:#fcd34d}.pill.ok{color:var(--ok)}
+.ask{display:flex;gap:8px;margin-top:10px}.ask button,.ex button{border:0;background:var(--accent);color:#fff;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer}
+.ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.ex button{background:#ede9fe;color:var(--accent);font-weight:500;font-size:12px;padding:6px 10px;border-radius:99px}
+</style>
+</head>
+<body>
+<header><div><span>Payly</span><b>Support Agent</b></div><div style="font-size:12px;color:#c4b5fd">Demo with synthetic customers</div></header>
+<main>
+<aside class="card"><h3>Signed-in customer</h3><select id="user"></select><h3 style="margin-top:16px">Their orders</h3><div id="orders"></div></aside>
+<section class="card chat"><h3>Conversation</h3><div id="thread"></div>
+<div class="ex" id="ex"></div>
+<div class="ask"><input id="q" placeholder="Ask about an order, a payment or a policy" /><button id="send">Send</button></div></section>
+</main>
+<script>
+const EX=["When is my next payment?","Can I reschedule my next payment?","How do refunds work?","Please waive my late fee","I never placed one of these orders"];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+async function loadUsers(){const u=await (await fetch("/api/users")).json();$("#user").innerHTML=u.map(x=>`<option value="${x.user_id}">${esc(x.name)} (${x.user_id})</option>`).join("");$("#user").value=new URLSearchParams(location.search).get("user")||u[0].user_id;loadOrders()}
+async function loadOrders(){const o=await (await fetch("/api/orders/"+$("#user").value)).json();$("#orders").innerHTML=o.map(x=>`<div class="order"><b>${esc(x.merchant)} · ${esc(x.item)}</b>${x.order_id} · $${x.total.toFixed(2)} <span class="tag">${x.status}</span>${x.next_payment?`<br>Next: $${x.next_payment.amount.toFixed(2)} on ${x.next_payment.due} (${x.next_payment.status})`:""}</div>`).join("")}
+function add(cls,html){const d=document.createElement("div");d.className=cls;d.innerHTML=html;$("#thread").appendChild(d);d.scrollIntoView({block:"end"});return d}
+async function ask(text){if(!text.trim())return;add("u",esc(text));$("#q").value="";const w=add("b","Thinking...");
+ try{const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user_id:$("#user").value,question:text})});const d=await r.json();
+ const tools=(d.tool_calls||[]).map(t=>`<span class="pill">${t.name}</span>`).join("");
+ w.innerHTML=esc(d.answer||d.error)+`<div class="meta"><span class="pill ${d.route=="escalate"?"esc":""}">route: ${d.route}</span>${tools}<span class="pill ${d.grounding&&d.grounding.grounded?"ok":""}">${d.grounding&&d.grounding.grounded?"grounded":"unchecked"}</span><span class="pill">${d.latency_s}s</span></div>`}
+ catch(e){w.textContent="Error: "+e}}
+$("#send").onclick=()=>ask($("#q").value);$("#q").addEventListener("keydown",e=>{if(e.key==="Enter")ask($("#q").value)});$("#user").onchange=()=>{$("#thread").innerHTML="";loadOrders()};
+$("#ex").innerHTML=EX.map(t=>`<button>${t}</button>`).join("");$("#ex").onclick=e=>{if(e.target.tagName==="BUTTON")ask(e.target.textContent)};
+loadUsers();
+</script>
+</body>
+</html>

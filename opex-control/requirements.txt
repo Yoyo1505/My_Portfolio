@@ -1,0 +1,11 @@
+dash>=4.1
+duckdb>=1.1
+pandas>=2.2
+numpy>=1.26
+plotly>=6.0
+scikit-learn>=1.5
+pyarrow>=15
+pytest>=8
+selenium>=4.20
+pillow>=10
+waitress>=3.0

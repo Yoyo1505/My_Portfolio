@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Opex Control Dashboard</title>
+<style>
+:root{--bg:#070b14;--card:#0f172a;--line:rgba(148,163,184,.18);--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 480px at 10% -10%,#1e293b,transparent 55%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+main{max-width:1040px;margin:0 auto;padding:36px 18px 60px}a{color:#7dd3fc}.back{font-size:.9rem}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:.4em 0 .2em}h2{margin-top:2em}.lead{color:var(--muted);max-width:70ch}
+img{max-width:100%;border-radius:12px;border:1px solid var(--line)}figure{margin:0}figcaption{color:var(--muted);font-size:.85rem;margin:6px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted)}
+code{background:rgba(148,163,184,.14);padding:1px 6px;border-radius:6px}
+</style></head><body><main>
+<a class="back" href="../index.html">&larr; All demos</a>
+
+<h1>Payly Support Agent</h1>
+<p class="lead">Tool-calling support agent for a fictional buy-now-pay-later company. A deterministic router picks the tools, tools are bound to the signed-in customer, every amount and date in an answer is checked against the evidence, and risky cases are handed to a human without any generation.</p>
+<h2>Screens</h2>
+<p class="lead">Recorded from the real web UI. These captures use the <code>mock</code> backend (instant, template answers) so they show routing, guardrails and the UI; the model results below come from a real local-LLM run.</p>
+<div class="grid">
+<figure><img src="media/mock-01.png" alt="Order lookup"/><figcaption>Order lookup (tool route)</figcaption></figure>
+<figure><img src="media/mock-02.png" alt="Policy"/><figcaption>Policy answer (policy route)</figcaption></figure>
+<figure><img src="media/mock-03.png" alt="Escalation"/><figcaption>Fee waiver: ticket and fixed message, no LLM</figcaption></figure>
+<figure><img src="media/mock-04.png" alt="Authorization"/><figcaption>Another customer's order: not found</figcaption></figure>
+</div>
+<h2>Evaluation</h2>
+<div class="card" id="eval">Loading results...</div>
+<h2>Design</h2>
+<p>Decision records: <code>support-agent/DECISIONS.md</code> (authorization in the tool layer, deterministic router, no-LLM escalation, grounding check, BM25 retrieval, local-first model).</p>
+<script>
+fetch("results.json").then(r=>r.json()).then(d=>{const s=d.summary,p=x=>(x*100).toFixed(0)+"%";
+document.getElementById("eval").innerHTML=`<p><b>${s.model}</b> on CPU · ${s.cases} golden cases · ${s.ran_at}</p>
+<table><tr><th>Passed</th><th>Route accuracy</th><th>Required content</th><th>Forbidden content absent</th><th>Grounded</th><th>Median latency</th></tr>
+<tr><td>${s.passed}/${s.cases}</td><td>${p(s.route_accuracy)}</td><td>${p(s.include_rate)}</td><td>${p(s.exclude_rate)}</td><td>${p(s.grounded_rate)}</td><td>${s.latency_p50_s}s</td></tr></table>
+<h3>Per case</h3><table><tr><th>Id</th><th>Question</th><th>Route</th><th>Result</th><th>Answer</th></tr>`+d.rows.map(r=>`<tr><td>${r.id}</td><td>${r.question}</td><td>${r.route}</td><td>${r.passed?"pass":"FAIL"}</td><td>${r.answer.replace(/</g,"&lt;")}</td></tr>`).join("")+"</table>"}).catch(()=>{document.getElementById("eval").textContent="Results are published after the evaluation run completes."});
+</script>
+</main></body></html>

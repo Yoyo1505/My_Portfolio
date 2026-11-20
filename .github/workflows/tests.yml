@@ -1,0 +1,23 @@
+name: Tests
+on:
+  push:
+  pull_request:
+jobs:
+  opex-control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install dash duckdb pandas numpy plotly scikit-learn pyarrow pytest
+      - run: cd opex-control && python pipeline/generate_data.py && python pipeline/build.py && python -m pytest -q
+  support-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - run: cd support-agent && python data/build_data.py && python -m pytest -q

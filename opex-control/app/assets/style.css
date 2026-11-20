@@ -1,0 +1,48 @@
+:root{--bg:#f4f6fa;--panel:#ffffff;--panel-2:#eef2f7;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--bad:#dc2626;--good:#16a34a;--nav:#0b1220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px}
+.top{display:flex;justify-content:space-between;align-items:center;background:var(--nav);color:#fff;padding:12px 24px}
+.brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#93c5fd;margin-right:14px}
+.product{font-weight:700;font-size:18px}
+.chip{background:rgba(255,255,255,.1);padding:5px 12px;border-radius:999px;font-size:12px;margin-right:10px}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.ghost{background:transparent;color:inherit;border-color:rgba(148,163,184,.4)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.filters{display:grid;grid-template-columns:repeat(3,1fr) 1.6fr;gap:14px;padding:16px 24px;background:var(--panel);border-bottom:1px solid var(--line);align-items:end}
+.filters.inner{grid-template-columns:repeat(3,1fr) auto;padding:0 0 14px;background:transparent;border:0}
+.fi label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px;font-weight:600}
+.fi.wide{padding-right:8px}
+.body{padding:20px 24px 40px;max-width:1500px;margin:0 auto}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi-title{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+.kpi-value{font-size:26px;font-weight:700;margin-top:4px}
+.kpi-value.bad{color:var(--bad)}.kpi-value.good{color:var(--good)}
+.kpi-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card h3{margin:0 0 10px;font-size:14px}
+.muted{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.crumbs{flex:1;font-weight:600}
+.tab{padding:10px 18px!important;border:0!important;background:var(--panel)!important;color:var(--muted)!important;font-weight:600!important}
+.tab-on{color:var(--accent)!important;border-bottom:2px solid var(--accent)!important}
+.inp{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font-size:14px;width:100%}
+.ask{display:flex;gap:10px;margin-bottom:10px}.grow{flex:1}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip-btn{border:1px solid var(--line);background:var(--panel-2);color:var(--text);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer}
+.chip-btn:hover{border-color:var(--accent)}
+.turn{margin-bottom:18px}
+.bubble{padding:12px 14px;border-radius:12px;margin-bottom:8px;max-width:980px}
+.bubble.user{background:var(--accent);color:#fff;margin-left:auto;width:fit-content}
+.bubble.bot{background:var(--panel-2)}
+.meta{font-size:11px;color:var(--muted);margin-top:8px}
+pre{background:var(--nav);color:#cbd5e1;padding:10px;border-radius:8px;overflow:auto;font-size:12px}
+.login-wrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#0b1220,#1e3a8a)}
+.login-card{background:var(--panel);padding:34px;border-radius:16px;width:380px;display:grid;gap:12px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.login-card h1{margin:0}.brand-sm{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.login-msg{color:var(--bad);min-height:18px;font-size:13px}.hint{font-size:12px;color:var(--muted)}
+.chk{margin-top:8px;font-size:13px}
+@media(max-width:1000px){.filters,.filters.inner{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+.dash-spreadsheet-container .dash-spreadsheet-inner td,.dash-spreadsheet-container .dash-spreadsheet-inner th{font-family:inherit!important}

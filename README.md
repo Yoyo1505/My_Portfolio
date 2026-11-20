@@ -4,6 +4,8 @@ Applied finance projects with live, browser-only demos (GitHub Pages) and the so
 
 | Demo | What it shows | Live page | Source |
 |------|---------------|-----------|--------|
+| Opex Control (deployed app) | Dash + DuckDB expense control tower with pipeline, anomaly detection, roles, rule-based assistant, 39 tests and a recorded tour | `docs/opex-control/` | `opex-control/` |
+| Payly Support Agent | Tool-calling LLM agent: user-bound authorization, grounding check, no-LLM escalation, golden-set evaluation, 37 tests | `docs/support-agent/` | `support-agent/` |
 | Territory Dashboard | KPIs, territorial drill-down, account trees, closings, quarters (synthetic data) | `docs/dashboard/` | `dashboard/` (Streamlit) |
 | Cashi RAG chatbot | Retrieval over docs and code chunks with entity detection | `docs/chatbot/` | `chatbot/` (Streamlit + CLI) |
 | Paper trading | 20/100 moving-average strategy on META, NVDA, DBO, SPY, QQQ, CEG, SCHD with 100,000 USD of simulated capital | `docs/paper-trading/` | `quant-lab/paper_trading/` |
@@ -40,6 +42,10 @@ cd chatbot   && pip install -r requirements.txt && streamlit run app.py
 ```
 
 Refresh the static exports with `python docs/_export_demo_data.py`.
+
+## Anonymized rebuilds
+
+`opex-control/` and `support-agent/` are written from scratch for this repository. They follow patterns from two larger private projects (a weekly spend dashboard with an assistant, and an LLM support agent) but reuse none of their code, data, names or documents. Brands, policies, catalogs and numbers are fictional.
 
 ## Notes
 

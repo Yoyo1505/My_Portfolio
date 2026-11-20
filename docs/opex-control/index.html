@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Opex Control Dashboard</title>
+<style>
+:root{--bg:#070b14;--card:#0f172a;--line:rgba(148,163,184,.18);--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 480px at 10% -10%,#1e293b,transparent 55%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+main{max-width:1040px;margin:0 auto;padding:36px 18px 60px}a{color:#7dd3fc}.back{font-size:.9rem}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:.4em 0 .2em}h2{margin-top:2em}.lead{color:var(--muted);max-width:70ch}
+img{max-width:100%;border-radius:12px;border:1px solid var(--line)}figure{margin:0}figcaption{color:var(--muted);font-size:.85rem;margin:6px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted)}
+code{background:rgba(148,163,184,.14);padding:1px 6px;border-radius:6px}
+</style></head><body><main>
+<a class="back" href="../index.html">&larr; All demos</a>
+
+<h1>Opex Control Dashboard</h1>
+<p class="lead">Weekly operating-expense control tower: actual vs plan vs prior year, year-end forecast, anomaly alerts and a rule-based assistant. Plotly Dash + DuckDB over a synthetic retail group. The recording below was captured from the running app with headless Chrome.</p>
+<figure><img src="media/tour.gif" alt="Guided tour of the dashboard"/><figcaption>Tour: sign-in, summary, hierarchy drill-down, accounts, alerts, timeline, pivot, assistant.</figcaption></figure>
+<h2>Screens</h2>
+<div class="grid">
+<figure><img src="media/02-summary.png" alt="Summary"/><figcaption>Summary</figcaption></figure>
+<figure><img src="media/05-hierarchy-zone.png" alt="Hierarchy"/><figcaption>Hierarchy drill-down to zone level</figcaption></figure>
+<figure><img src="media/07-alerts.png" alt="Alerts"/><figcaption>Overspend and atypical weeks</figcaption></figure>
+<figure><img src="media/08-alert-series.png" alt="Alert series"/><figcaption>Click-through series for a flagged week</figcaption></figure>
+<figure><img src="media/09-timeline.png" alt="Timeline"/><figcaption>Variance heat map by month</figcaption></figure>
+<figure><img src="media/11-assistant.png" alt="Assistant"/><figcaption>Cashi assistant answering with tables</figcaption></figure>
+</div>
+<h2>Run it</h2>
+<p><code>cd opex-control &amp;&amp; pip install -r requirements.txt &amp;&amp; python pipeline/generate_data.py &amp;&amp; python pipeline/build.py &amp;&amp; python app/app.py</code></p>
+<p>Source and documentation: <code>opex-control/</code> in the repository. Demo accounts: <code>analyst / analyst123</code>, <code>admin / admin123</code>.</p>
+</main></body></html>

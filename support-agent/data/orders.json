@@ -1,0 +1,548 @@
+{
+ "today": "2026-11-20",
+ "users": [
+  {
+   "user_id": "u001",
+   "name": "Maya Collins",
+   "email": "maya.collins@example.test"
+  },
+  {
+   "user_id": "u002",
+   "name": "Diego Alvarez",
+   "email": "diego.alvarez@example.test"
+  },
+  {
+   "user_id": "u003",
+   "name": "Priya Nair",
+   "email": "priya.nair@example.test"
+  },
+  {
+   "user_id": "u004",
+   "name": "Tom Becker",
+   "email": "tom.becker@example.test"
+  },
+  {
+   "user_id": "u005",
+   "name": "Lena Fischer",
+   "email": "lena.fischer@example.test"
+  },
+  {
+   "user_id": "u006",
+   "name": "Omar Haddad",
+   "email": "omar.haddad@example.test"
+  },
+  {
+   "user_id": "u007",
+   "name": "Sofia Rossi",
+   "email": "sofia.rossi@example.test"
+  },
+  {
+   "user_id": "u008",
+   "name": "Kenji Mori",
+   "email": "kenji.mori@example.test"
+  }
+ ],
+ "orders": [
+  {
+   "order_id": "ord_5001",
+   "user_id": "u001",
+   "merchant": "Northline Outdoors",
+   "item": "Trail jacket",
+   "total": 180.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-11",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 61.2,
+     "due": "2026-11-11",
+     "status": "paid",
+     "paid_on": "2026-11-11"
+    },
+    {
+     "n": 2,
+     "amount": 59.4,
+     "due": "2026-11-25",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 59.4,
+     "due": "2026-12-09",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5002",
+   "user_id": "u001",
+   "merchant": "Brightwave Audio",
+   "item": "Wireless earbuds",
+   "total": 120.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-10-11",
+   "status": "paid",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 40.8,
+     "due": "2026-10-11",
+     "status": "paid",
+     "paid_on": "2026-10-11"
+    },
+    {
+     "n": 2,
+     "amount": 39.6,
+     "due": "2026-10-25",
+     "status": "paid",
+     "paid_on": "2026-10-25"
+    },
+    {
+     "n": 3,
+     "amount": 39.6,
+     "due": "2026-11-08",
+     "status": "paid",
+     "paid_on": "2026-11-08"
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5003",
+   "user_id": "u002",
+   "merchant": "Atlas Furniture",
+   "item": "Standing desk",
+   "total": 840.0,
+   "plan": "pay_monthly",
+   "order_date": "2026-09-19",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 140.0,
+     "due": "2026-09-19",
+     "status": "paid",
+     "paid_on": "2026-09-19"
+    },
+    {
+     "n": 2,
+     "amount": 140.0,
+     "due": "2026-10-19",
+     "status": "paid",
+     "paid_on": "2026-10-19"
+    },
+    {
+     "n": 3,
+     "amount": 140.0,
+     "due": "2026-11-18",
+     "status": "paid",
+     "paid_on": "2026-11-18"
+    },
+    {
+     "n": 4,
+     "amount": 140.0,
+     "due": "2026-12-18",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 5,
+     "amount": 140.0,
+     "due": "2027-01-17",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 6,
+     "amount": 140.0,
+     "due": "2027-02-16",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5004",
+   "user_id": "u002",
+   "merchant": "Pixel & Co",
+   "item": "Camera lens",
+   "total": 300.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-10-31",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 102.0,
+     "due": "2026-10-31",
+     "status": "paid",
+     "paid_on": "2026-10-31"
+    },
+    {
+     "n": 2,
+     "amount": 99.0,
+     "due": "2026-11-14",
+     "status": "paid",
+     "paid_on": "2026-11-14"
+    },
+    {
+     "n": 3,
+     "amount": 99.0,
+     "due": "2026-11-28",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ],
+   "late_fee": null
+  },
+  {
+   "order_id": "ord_5005",
+   "user_id": "u003",
+   "merchant": "Verde Home",
+   "item": "Air purifier",
+   "total": 210.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-02",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 71.4,
+     "due": "2026-11-02",
+     "status": "paid",
+     "paid_on": "2026-11-02"
+    },
+    {
+     "n": 2,
+     "amount": 69.3,
+     "due": "2026-11-16",
+     "status": "failed",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 69.3,
+     "due": "2026-11-30",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5006",
+   "user_id": "u003",
+   "merchant": "Northline Outdoors",
+   "item": "Tent",
+   "total": 330.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-15",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 112.2,
+     "due": "2026-11-15",
+     "status": "paid",
+     "paid_on": "2026-11-15"
+    },
+    {
+     "n": 2,
+     "amount": 108.9,
+     "due": "2026-11-29",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 108.9,
+     "due": "2026-12-13",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5007",
+   "user_id": "u004",
+   "merchant": "Luma Beauty",
+   "item": "Skincare set",
+   "total": 95.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-10-18",
+   "status": "refunded",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 32.3,
+     "due": "2026-10-18",
+     "status": "paid",
+     "paid_on": "2026-10-18"
+    },
+    {
+     "n": 2,
+     "amount": 31.35,
+     "due": "2026-11-01",
+     "status": "paid",
+     "paid_on": "2026-11-01"
+    },
+    {
+     "n": 3,
+     "amount": 31.35,
+     "due": "2026-11-15",
+     "status": "paid",
+     "paid_on": "2026-11-15"
+    }
+   ],
+   "refund": {
+    "amount": 95.0,
+    "status": "processed",
+    "date": "2026-11-16"
+   }
+  },
+  {
+   "order_id": "ord_5008",
+   "user_id": "u004",
+   "merchant": "Brightwave Audio",
+   "item": "Speaker",
+   "total": 150.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-09",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 51.0,
+     "due": "2026-11-09",
+     "status": "paid",
+     "paid_on": "2026-11-09"
+    },
+    {
+     "n": 2,
+     "amount": 49.5,
+     "due": "2026-11-23",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 49.5,
+     "due": "2026-12-07",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ],
+   "refund": {
+    "amount": 150.0,
+    "status": "pending_merchant",
+    "date": null
+   }
+  },
+  {
+   "order_id": "ord_5009",
+   "user_id": "u005",
+   "merchant": "Tessera Games",
+   "item": "Console bundle",
+   "total": 450.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-10-18",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 153.0,
+     "due": "2026-10-18",
+     "status": "paid",
+     "paid_on": "2026-10-18"
+    },
+    {
+     "n": 2,
+     "amount": 148.5,
+     "due": "2026-11-01",
+     "status": "paid",
+     "paid_on": "2026-11-01"
+    },
+    {
+     "n": 3,
+     "amount": 148.5,
+     "due": "2026-11-15",
+     "status": "late",
+     "paid_on": null
+    }
+   ],
+   "late_fee": 7.0
+  },
+  {
+   "order_id": "ord_5010",
+   "user_id": "u005",
+   "merchant": "Atlas Furniture",
+   "item": "Bookshelf",
+   "total": 260.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-08",
+   "status": "disputed",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 88.4,
+     "due": "2026-11-08",
+     "status": "paid",
+     "paid_on": "2026-11-08"
+    },
+    {
+     "n": 2,
+     "amount": 85.8,
+     "due": "2026-11-22",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 85.8,
+     "due": "2026-12-06",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ],
+   "dispute": {
+    "opened": "2026-11-18",
+    "reason": "item not delivered",
+    "status": "open"
+   }
+  },
+  {
+   "order_id": "ord_5011",
+   "user_id": "u006",
+   "merchant": "Verde Home",
+   "item": "Blender",
+   "total": 85.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-18",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 28.9,
+     "due": "2026-11-18",
+     "status": "paid",
+     "paid_on": "2026-11-18"
+    },
+    {
+     "n": 2,
+     "amount": 28.05,
+     "due": "2026-12-02",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 28.05,
+     "due": "2026-12-16",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5012",
+   "user_id": "u007",
+   "merchant": "Pixel & Co",
+   "item": "Laptop sleeve",
+   "total": 55.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-10-20",
+   "status": "paid",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 18.7,
+     "due": "2026-10-20",
+     "status": "paid",
+     "paid_on": "2026-10-20"
+    },
+    {
+     "n": 2,
+     "amount": 18.15,
+     "due": "2026-11-03",
+     "status": "paid",
+     "paid_on": "2026-11-03"
+    },
+    {
+     "n": 3,
+     "amount": 18.15,
+     "due": "2026-11-17",
+     "status": "paid",
+     "paid_on": "2026-11-17"
+    }
+   ]
+  },
+  {
+   "order_id": "ord_5013",
+   "user_id": "u007",
+   "merchant": "Aria Travel",
+   "item": "Luggage set",
+   "total": 520.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-10",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 176.8,
+     "due": "2026-11-10",
+     "status": "paid",
+     "paid_on": "2026-11-10"
+    },
+    {
+     "n": 2,
+     "amount": 171.6,
+     "due": "2026-11-24",
+     "status": "scheduled",
+     "paid_on": null
+    },
+    {
+     "n": 3,
+     "amount": 171.6,
+     "due": "2026-12-08",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ],
+   "reschedule_used": true
+  },
+  {
+   "order_id": "ord_5014",
+   "user_id": "u008",
+   "merchant": "Luma Beauty",
+   "item": "Hair dryer",
+   "total": 140.0,
+   "plan": "pay_in_3",
+   "order_date": "2026-11-05",
+   "status": "active",
+   "installments": [
+    {
+     "n": 1,
+     "amount": 47.6,
+     "due": "2026-11-05",
+     "status": "paid",
+     "paid_on": "2026-11-05"
+    },
+    {
+     "n": 2,
+     "amount": 46.2,
+     "due": "2026-11-19",
+     "status": "paid",
+     "paid_on": "2026-11-19"
+    },
+    {
+     "n": 3,
+     "amount": 46.2,
+     "due": "2026-12-03",
+     "status": "scheduled",
+     "paid_on": null
+    }
+   ]
+  }
+ ]
+}

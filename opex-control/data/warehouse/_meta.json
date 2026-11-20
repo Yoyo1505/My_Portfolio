@@ -1,0 +1,9 @@
+{
+ "cutoff_week": 42,
+ "rows": 306552,
+ "stores": 241,
+ "accounts": 24,
+ "anomalies": 29,
+ "psi_actual_vs_plan": 0.0021,
+ "built_seconds": 29.9
+}
