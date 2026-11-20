@@ -406,7 +406,7 @@ def _orden_div_key(nombre) -> tuple:
     return (ORDEN_DIV.get(nombre, 999), str(nombre))
 
 def con_id(nombre: str) -> str:
-    """'Mega Cd Juarez Azt' -> '4821 · Mega Cd Juarez Azt'. Limpia IDs 0, NaN, o vacíos."""
+    """'Plaza Norte Demo' -> '4821 · Plaza Norte Demo'. Limpia IDs 0, NaN, o vacíos."""
     if nombre is None or pd.isna(nombre) or str(nombre).strip() in ("", "0", "0.0", "nan", "NaN", "None"):
         return "Sin agrupar"
     nombre_str = str(nombre).strip()
@@ -2315,7 +2315,7 @@ if SEC == "Detalle PDC":
         d = compute("pdc", si, sf, ind, FILT, mes=MES, sems=SEMS)
         d = d.copy()
         # 2026-07-27: el ID ya no va en columna aparte — se antepone al nombre
-        # ("4821 · Mega Cd Juarez Azt") con con_id(), igual que en los árboles,
+        # ("4821 · Plaza Norte Demo") con con_id(), igual que en los árboles,
         # y las filas se ordenan por ese ID para que salgan juntas y en orden.
         # el nombre crudo se conserva aparte: los filtros (oficiales, buscador)
         # comparan contra el catálogo, que va sin el prefijo del ID.
