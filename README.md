@@ -1,53 +1,81 @@
 # Fintech Analytics & AI Demos
 
-Applied finance projects with live, browser-only demos (GitHub Pages) and the source behind each one.
+Six applied finance and AI projects, each with a live browser demo, its source code, tests where it makes sense, and recorded screenshots. All data is synthetic or public market data; nothing here comes from a real employer or customer.
 
-| Demo | What it shows | Live page | Source |
-|------|---------------|-----------|--------|
-| Opex Control (deployed app) | Dash + DuckDB expense control tower with pipeline, anomaly detection, roles, rule-based assistant, 39 tests and a recorded tour | `docs/opex-control/` | `opex-control/` |
-| Payly Support Agent | Tool-calling LLM agent: user-bound authorization, grounding check, no-LLM escalation, golden-set evaluation, 37 tests | `docs/support-agent/` | `support-agent/` |
-| Territory Dashboard | KPIs, territorial drill-down, account trees, closings, quarters (synthetic data) | `docs/dashboard/` | `dashboard/` (Streamlit) |
-| Cashi RAG chatbot | Retrieval over docs and code chunks with entity detection | `docs/chatbot/` | `chatbot/` (Streamlit + CLI) |
-| Paper trading | 20/100 moving-average strategy on META, NVDA, DBO, SPY, QQQ, CEG, SCHD with 100,000 USD of simulated capital | `docs/paper-trading/` | `quant-lab/paper_trading/` |
-| Quantitative finance lab | Executed notebook: VaR/CVaR, Kupiec, Markowitz, ARIMA/GARCH, Monte Carlo, Black-Scholes, backtesting, pairs trading, HMM, SGD | `docs/quant-lab/` | `quant-lab/finanzas_cuantitativas.ipynb` |
+![Opex Control tour](docs/opex-control/media/tour.gif)
+
+## Projects
+
+| | Project | What it is | Demo | Code |
+|---|---------|-----------|------|------|
+| 1 | **Opex Control** | Dash + DuckDB expense control tower: plan vs actual vs forecast, drill-down, anomaly alerts, roles, rule-based assistant. 39 tests. | [`docs/opex-control`](docs/opex-control/index.html) | [`opex-control/`](opex-control) |
+| 2 | **Payly Support Agent** | Tool-calling LLM agent for buy-now-pay-later support: user-bound authorization, grounding check, no-LLM escalation, golden-set evaluation. 39 tests. | [`docs/support-agent`](docs/support-agent/index.html) | [`support-agent/`](support-agent) |
+| 3 | **Paper trading** | 20/100 moving-average strategy on a 7-asset portfolio with 100,000 USD of simulated capital and a daily-updated ledger. | [`docs/paper-trading`](docs/paper-trading/index.html) | [`quant-lab/paper_trading`](quant-lab/paper_trading) |
+| 4 | **Quantitative finance lab** | Executed notebook: VaR/CVaR, Kupiec, Markowitz, ARIMA/GARCH, Monte Carlo, Black-Scholes, backtesting, pairs trading, HMM, SGD. | [`docs/quant-lab`](docs/quant-lab/index.html) | [`quant-lab/`](quant-lab) |
+| 5 | **Territory Dashboard** | Territorial spend dashboard with drill-down, account trees and quarterly views. Streamlit app plus a static demo. | [`docs/dashboard`](docs/dashboard/index.html) | [`dashboard/`](dashboard) |
+| 6 | **Cashi RAG** | Retrieval over docs and code chunks with entity detection. Streamlit app plus a static demo. | [`docs/chatbot`](docs/chatbot/index.html) | [`chatbot/`](chatbot) |
+
+Once Pages is enabled the demos are served at `https://<user>.github.io/<repo>/`.
+
+## Screenshots
+
+| Opex Control: summary | Opex Control: alerts |
+|---|---|
+| ![](docs/opex-control/media/02-summary.png) | ![](docs/opex-control/media/07-alerts.png) |
+| **Opex Control: assistant** | **Payly Support Agent** |
+| ![](docs/opex-control/media/11-assistant.png) | ![](docs/support-agent/media/mock-03.png) |
+| **Paper trading** | **Quantitative finance lab** |
+| ![](docs/media/paper-trading.png) | ![](docs/media/quant-lab.png) |
+
+The Payly capture uses the `mock` model backend so it is instant; model results are in [`support-agent/EVAL.md`](support-agent/EVAL.md).
+
+## Highlights
+
+- **Reconciliation first.** Opex Control tests compare the warehouse with the raw data to the cent and check that divisions add up to the company total.
+- **Safe by construction.** Parameterised SQL (tested against injection), tools bound to the signed-in customer, escalation without generation, and an answer check that rejects amounts or dates not present in the evidence.
+- **Honest evaluation.** The agent's golden set scored 19/25 with a real local model; failures are listed with causes, and a cancelled second run is labelled as partial.
+- **Out-of-sample record.** Paper trading tags replayed days as `backfill` and new days as `live`, so only the live rows count as a track record.
+
+## Run locally
+
+```bash
+# Opex Control
+cd opex-control && pip install -r requirements.txt
+python pipeline/generate_data.py && python pipeline/build.py
+python app/app.py                      # http://127.0.0.1:8050  (analyst/analyst123, admin/admin123)
+python -m pytest -q
+
+# Payly Support Agent
+cd support-agent && python data/build_data.py && python -m pytest -q
+python web/server.py                   # needs Ollama + llama3.1:8b, or SUPPORT_BACKEND=mock
+
+# Paper trading and notebook
+cd quant-lab && pip install -r requirements.txt
+python paper_trading/engine.py         # processes new closes only
+
+# Static demos
+python -m http.server --directory docs 8000
+```
 
 ## Deploy
 
-1. Push to GitHub and set **Settings → Pages → Source: GitHub Actions**.
-2. `.github/workflows/pages.yml` publishes `docs/` on every push that touches it.
-3. Pages URL: `https://<user>.github.io/<repo>/`.
+1. Push to GitHub and set **Settings > Pages > Source: GitHub Actions**.
+2. `.github/workflows/pages.yml` publishes `docs/`.
+3. `.github/workflows/tests.yml` runs both test suites.
+4. `.github/workflows/paper-trading.yml` updates the paper-trading ledger every weekday after the US close.
 
-Preview locally: `python -m http.server --directory docs 8000`.
+## Layout
 
-## Paper trading
-
-```bash
-cd quant-lab
-pip install -r requirements.txt
-python paper_trading/engine.py --backfill 120   # first run: rebuild 120 days (tagged "backfill"), then "live"
-python paper_trading/engine.py                  # every later day: process new closes only
 ```
-
-Rules: signal at the close of day *t*, fill at the close of *t+1* with 5 bp slippage, equal-weight slots, long only, no leverage. State lives in `quant-lab/paper_trading/data/` (`state.json`, `trades.csv`, `equity.csv`) and the page reads `docs/paper-trading/data.json`.
-`.github/workflows/paper-trading.yml` runs the update every weekday after the US close and commits the ledger.
-Only the `live` rows are an out-of-sample record; `backfill` rows are a replay with the same rules.
-
-No broker keys are needed. To route orders to Alpaca paper trading, keep keys in a local `.env` (git-ignored) and never in the notebook.
-
-## Dashboard and chatbot
-
-```bash
-cd dashboard && pip install -r requirements.txt && python seed_demo_data.py && streamlit run app.py
-cd chatbot   && pip install -r requirements.txt && streamlit run app.py
+docs/            static site: landing page and one folder per demo (media/ holds screenshots and GIFs)
+opex-control/    pipeline, monitoring, core queries, Dash app, assistant, tests
+support-agent/   agent, store, retrieval, guardrails, eval, web UI, DECISIONS.md, EVAL.md
+quant-lab/       executed notebook and the paper-trading engine
+dashboard/       Territory Dashboard (Streamlit)
+chatbot/         Cashi RAG (Streamlit)
 ```
-
-Refresh the static exports with `python docs/_export_demo_data.py`.
-
-## Anonymized rebuilds
-
-`opex-control/` and `support-agent/` are written from scratch for this repository. They follow patterns from two larger private projects (a weekly spend dashboard with an assistant, and an LLM support agent) but reuse none of their code, data, names or documents. Brands, policies, catalogs and numbers are fictional.
 
 ## Notes
 
-- All dashboard and chatbot data is synthetic. No credentials, corporate data or customer data are included.
-- Educational material, not financial advice. Paper results do not predict real performance.
+- `opex-control/` and `support-agent/` are written from scratch for this repository. They follow patterns from two larger private projects but reuse none of their code, data, names or documents. Brands, policies, catalogs and numbers are fictional.
+- Educational material, not financial advice. Paper-trading results do not predict real performance.
