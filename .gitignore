@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.env
+*.log
+.ipynb_checkpoints/
+*.parquet
+*.duckdb
+dashboard/aggs/
+**/rag/index_store.json
+.DS_Store
+Thumbs.db
+*.zip

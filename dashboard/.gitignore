@@ -1,0 +1,9 @@
+.env
+usuarios.json
+__pycache__/
+.venv/
+venv/
+*.log
+*.parquet
+aggs/
+!seed_demo_data.py

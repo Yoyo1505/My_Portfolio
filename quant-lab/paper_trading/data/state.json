@@ -1,0 +1,33 @@
+{
+  "config": {
+    "tickers": [
+      "META",
+      "NVDA",
+      "DBO",
+      "SPY",
+      "QQQ",
+      "CEG",
+      "SCHD"
+    ],
+    "benchmark": "SPY",
+    "capital": 100000.0,
+    "fast": 20,
+    "slow": 100,
+    "slippage": 0.0005,
+    "commission": 0.0
+  },
+  "cash": 61076.07433357391,
+  "positions": {
+    "META": 0.0,
+    "NVDA": 0.0,
+    "DBO": 728.8706,
+    "SPY": 0.0,
+    "QQQ": 0.0,
+    "CEG": 0.0,
+    "SCHD": 448.1648
+  },
+  "pending": {},
+  "last_date": "2026-11-20",
+  "started": "2026-06-02",
+  "started_live": "2026-11-20"
+}

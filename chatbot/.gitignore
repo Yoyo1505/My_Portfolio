@@ -1,0 +1,7 @@
+__pycache__/
+.venv/
+venv/
+rag/index_store.json
+aggs/
+*.parquet
+.env
