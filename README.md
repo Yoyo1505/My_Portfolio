@@ -38,7 +38,7 @@ Once Pages is enabled the demos are served at `https://<user>.github.io/<repo>/`
 
 **LLM support agent (Payly).** Each answer shows its route, the tools used and whether every amount and date was grounded. Fee waivers and fraud reports are escalated with a ticket instead of answered. Model results: 19/25 on a local llama3.1:8b ([EVAL.md](support-agent/EVAL.md)).
 
-![Agent](docs/support-agent/media/mock-tour.gif)
+![Agent](docs/support-agent/media/real-tour.gif)
 
 **Paper-trading simulation.** 100,000 USD of simulated capital on META, NVDA, DBO, SPY, QQQ, CEG and SCHD with a 20/100 moving-average rule, compared with SPY. The record starts 2026-11-20; earlier days are marked `backfill`.
 
@@ -50,11 +50,11 @@ Once Pages is enabled the demos are served at `https://<user>.github.io/<repo>/`
 |---|---|
 | ![](docs/opex-control/media/02-summary.png) | ![](docs/opex-control/media/07-alerts.png) |
 | **Opex Control: assistant** | **Payly Support Agent** |
-| ![](docs/opex-control/media/11-assistant.png) | ![](docs/support-agent/media/mock-03.png) |
+| ![](docs/opex-control/media/11-assistant.png) | ![](docs/support-agent/media/real-03.png) |
 | **Paper trading** | **Quantitative finance lab** |
 | ![](docs/media/paper-trading.png) | ![](docs/media/quant-lab.png) |
 
-The Payly capture uses the `mock` model backend so it is instant; model results are in [`support-agent/EVAL.md`](support-agent/EVAL.md).
+The Payly captures come from the real local model (`llama3.1:8b`, CPU), so they show 1-2 minute latencies; results are in [`support-agent/EVAL.md`](support-agent/EVAL.md).
 
 ## Highlights
 

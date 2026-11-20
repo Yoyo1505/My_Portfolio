@@ -17,13 +17,14 @@ code{background:rgba(148,163,184,.14);padding:1px 6px;border-radius:6px}
 <h1>Payly Support Agent</h1>
 <p class="lead">Tool-calling support agent for a fictional buy-now-pay-later company. A deterministic router picks the tools, tools are bound to the signed-in customer, every amount and date in an answer is checked against the evidence, and risky cases are handed to a human without any generation.</p>
 <h2>Screens</h2>
-<p class="lead">Recorded from the real web UI. These captures use the <code>mock</code> backend (instant, template answers) so they show routing, guardrails and the UI; the model results below come from a real local-LLM run.</p>
+<p class="lead">Recorded from the real web UI with the real local model (<code>llama3.1:8b</code>, CPU only). The grey chips show the route, the tool called, whether every amount and date was grounded, and the latency.</p>
 <div class="grid">
-<figure><img src="media/mock-01.png" alt="Order lookup"/><figcaption>Order lookup (tool route)</figcaption></figure>
-<figure><img src="media/mock-02.png" alt="Policy"/><figcaption>Policy answer (policy route)</figcaption></figure>
-<figure><img src="media/mock-03.png" alt="Escalation"/><figcaption>Fee waiver: ticket and fixed message, no LLM</figcaption></figure>
-<figure><img src="media/mock-04.png" alt="Authorization"/><figcaption>Another customer's order: not found</figcaption></figure>
+<figure><img src="media/real-01.png" alt="Order lookup"/><figcaption>Order lookup (tool route)</figcaption></figure>
+<figure><img src="media/real-02.png" alt="Policy"/><figcaption>Policy answer (policy route)</figcaption></figure>
+<figure><img src="media/real-03.png" alt="Escalation"/><figcaption>Fee waiver: ticket and fixed message, no LLM</figcaption></figure>
+<figure><img src="media/real-04.png" alt="Authorization"/><figcaption>Another customer's order: not found</figcaption></figure>
 </div>
+<figure><img src="media/real-tour.gif" alt="Agent tour"/><figcaption>The four conversations in sequence.</figcaption></figure>
 <h2>Evaluation</h2>
 <div class="card" id="eval">Loading results...</div>
 <h2>Design</h2>
