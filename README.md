@@ -1,4 +1,4 @@
-# Fintech Analytics & AI Demos
+# My_Portfolio
 
 Six applied finance and AI projects, each with a live browser demo, its source code, tests where it makes sense, and recorded screenshots. All data is synthetic or public market data; nothing here comes from a real employer or customer.
 
@@ -17,7 +17,27 @@ Six applied finance and AI projects, each with a live browser demo, its source c
 
 Once Pages is enabled the demos are served at `https://<user>.github.io/<repo>/`.
 
-## Screenshots
+## Demos: how each one works
+
+**Dashboard (Opex Control).** Sign in, filter by division, region, account group and weeks, drill from division down to store, review alerts and export tables as admin.
+
+![Dashboard tour](docs/opex-control/media/tour.gif)
+
+**Chatbot (Cashi).** Ask in plain English; the dashboard version answers from the same queries, and the standalone RAG demo returns ranked snippets with entities.
+
+| Assistant inside the dashboard | Standalone Cashi RAG |
+|---|---|
+| ![](docs/opex-control/media/11-assistant.png) | ![](docs/media/chatbot-tour.gif) |
+
+**LLM support agent (Payly).** Each answer shows its route, the tools used and whether every amount and date was grounded. Fee waivers and fraud reports are escalated with a ticket instead of answered. Model results: 19/25 on a local llama3.1:8b ([EVAL.md](support-agent/EVAL.md)).
+
+![Agent](docs/support-agent/media/mock-tour.gif)
+
+**Paper-trading simulation.** 100,000 USD of simulated capital on META, NVDA, DBO, SPY, QQQ, CEG and SCHD with a 20/100 moving-average rule, compared with SPY. The record starts 2026-11-20; earlier days are marked `backfill`.
+
+![Paper trading](docs/media/paper-trading.png)
+
+## More screenshots
 
 | Opex Control: summary | Opex Control: alerts |
 |---|---|
