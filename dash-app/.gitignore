@@ -1,0 +1,5 @@
+aggs/
+aggs_digitales/
+datos/
+archivos_proyecto/.env
+__pycache__/

@@ -15,7 +15,7 @@ Applied finance and AI projects, each with a live browser demo, its source code,
 | 5 | **Territory Dashboard** | Territorial spend dashboard with drill-down, account trees and quarterly views. Streamlit app plus a static demo. | [`docs/dashboard`](docs/dashboard/index.html) | [`dashboard/`](dashboard) |
 | 7 | **Notebooks** | 30 notebooks with saved outputs: risk, trading, quantum algorithms, causal inference, LLM engineering, sports analytics. | [`notebooks/README.md`](notebooks/README.md) | [`notebooks/`](notebooks) |
 | 7 | **Notebooks** | 30 notebooks with saved outputs: risk, trading, quantum algorithms, causal inference, LLM engineering, sports analytics. | [`notebooks/README.md`](notebooks/README.md) | [`notebooks/`](notebooks) |
-| 8 | **Weekly Spend Control Dashboard (source)** | Source of a production-style Dash + DuckDB dashboard with pipeline, exports, roles and a rule-based assistant. Identifiers and data removed; see its README for what was left out. | [`opex-control`](opex-control/README.md) (runnable analog) | [`dash-app/`](dash-app) |
+| 8 | **Weekly Spend Control Dashboard (source)** | Source of a production-style Dash + DuckDB dashboard with pipeline, exports, roles and a rule-based assistant. Runs on synthetic data with a recorded tour. Identifiers and real data removed; see its README. | [`docs/dash-app`](docs/dash-app/index.html) | [`dash-app/`](dash-app) |
 | 6 | **Cashi RAG** | Retrieval over docs and code chunks with entity detection. Streamlit app plus a static demo. | [`docs/chatbot`](docs/chatbot/index.html) | [`chatbot/`](chatbot) |
 
 Once Pages is enabled the demos are served at `https://<user>.github.io/<repo>/`.

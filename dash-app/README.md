@@ -2,7 +2,21 @@
 
 Production-style weekly spend dashboard for a multi-division retail group, with a data pipeline, an analytics warehouse, a multi-tab Plotly Dash app, role-based users, Excel/PDF exports and a rule-based chat assistant (Cashi) that needs no LLM.
 
-This folder is the source code only. Company identifiers, credentials, internal hostnames, people, catalogs, real figures and branded assets were removed or replaced with neutral placeholders (`Aurora`, `<SHARED_DRIVE>`, `sql-server.example.local`). There is **no data**, so the app cannot start until you provide the inputs described in [RECONSTRUIR.md](RECONSTRUIR.md). For a runnable, fully synthetic version of the same ideas see [`../opex-control`](../opex-control), which includes a recorded tour.
+![Tour](../docs/dash-app/media/tour.gif)
+
+This folder is the source code of the application plus a synthetic-data generator so it runs end to end. Company identifiers, credentials, internal hostnames, people, catalogs, real figures and branded assets were removed or replaced with neutral placeholders (`Aurora`, `<SHARED_DRIVE>`, `sql-server.example.local`). There is **no real data**. `synthetic/make_consolidado.py` writes the same input files the pipeline expects (weekly actual, plan and forecast extracts, the structure and account catalogs in Excel, a forecast workbook and demo users), so the real pipeline and the real app run unchanged. The recorded tour above was captured from the app running on that data. A smaller, fully rewritten version of the same ideas is in [`../opex-control`](../opex-control).
+
+## Run the demo
+
+```bash
+pip install -r requirements.txt dash-bootstrap-components waitress scikit-learn
+python synthetic/make_consolidado.py          # inputs: datos/*.parquet, Excel catalogs, demo users
+python codigo/build_data.py --rebuild --actualizar-catalogos --solo semanal   # builds aggs/ and dashboard.duckdb (~10 s)
+python dash_app/app.py                        # http://127.0.0.1:8050  (admin1 / admin123, analista1 / analista123)
+python synthetic/capture_dash.py              # re-records the tour with headless Chrome
+```
+
+The synthetic set has 191 locations, 21 accounts and 53 weeks (about 590,000 fact rows) with actuals up to week 42. Tabs that need other private inputs (digital channel, expansion closings workbook, labelled evaluation data) start empty or are skipped.
 
 ## What is inside
 

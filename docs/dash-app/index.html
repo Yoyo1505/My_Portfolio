@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Weekly Spend Control Dashboard</title>
+<style>
+:root{--bg:#070b14;--card:#0f172a;--line:rgba(148,163,184,.18);--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 480px at 10% -10%,#1e293b,transparent 55%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+main{max-width:1040px;margin:0 auto;padding:36px 18px 60px}a{color:#7dd3fc}.back{font-size:.9rem}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:.4em 0 .2em}h2{margin-top:2em}.lead{color:var(--muted);max-width:70ch}
+img{max-width:100%;border-radius:12px;border:1px solid var(--line)}figure{margin:0}figcaption{color:var(--muted);font-size:.85rem;margin:6px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted)}
+code{background:rgba(148,163,184,.14);padding:1px 6px;border-radius:6px}
+</style></head><body><main>
+<a class="back" href="../index.html">&larr; All demos</a>
+
+<h1>Weekly Spend Control Dashboard</h1>
+<p class="lead">The sanitized source of a production-style dashboard, running its real pipeline and real app on synthetic data: weekly actual, plan and forecast, drill-down trees, exports, roles and the Cashi assistant. Recorded with headless Chrome.</p>
+<figure><img src="media/tour.gif" alt="Tour of the dashboard"/><figcaption>Sign-in and a pass over the tabs.</figcaption></figure>
+<h2>Screens</h2><div class="grid"><figure><img src="media/03-resumen.png" alt="Summary: KPIs and spend by account group"/><figcaption>Summary: KPIs and spend by account group</figcaption></figure><figure><img src="media/04-cuenta.png" alt="Accounting hierarchy"/><figcaption>Accounting hierarchy</figcaption></figure><figure><img src="media/06-ceco.png" alt="Cost-center analysis"/><figcaption>Cost-center analysis</figcaption></figure><figure><img src="media/09-tiempo.png" alt="Time view"/><figcaption>Time view</figcaption></figure><figure><img src="media/12c-cashi-2.png" alt="Cashi assistant: top 10 cost centers"/><figcaption>Cashi assistant: top 10 cost centers</figcaption></figure><figure><img src="media/15-dark-theme.png" alt="Dark theme"/><figcaption>Dark theme</figcaption></figure></div>
+<h2>Run it</h2><p>See <code>dash-app/README.md</code>: generate the synthetic inputs, run the build, start the app. Source: <code>dash-app/</code>.</p>
+</main></body></html>
