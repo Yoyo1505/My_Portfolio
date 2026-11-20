@@ -1,6 +1,6 @@
 # Shareable demos
 
-Ready-to-share animated GIFs of every project. Each is under 1 MB, 1100 px wide and loops forever, so they work in a README, a Slack message, an email, a LinkedIn post or a slide.
+Ready-to-share animated GIFs of every project. Each is about 1 MB or less, 1100 px wide and loops forever, so they work in a README, a Slack message, an email, a LinkedIn post or a slide.
 
 | File | What it shows |
 |------|---------------|
@@ -9,6 +9,11 @@ Ready-to-share animated GIFs of every project. Each is under 1 MB, 1100 px wide 
 | [`03-payly-support-agent.gif`](03-payly-support-agent.gif) | The LLM support agent answering with a real local model: order lookup, policy, escalation and cross-customer protection |
 | [`04-paper-trading.gif`](04-paper-trading.gif) | The paper-trading simulation: capital vs SPY, open positions and the trade ledger |
 | [`05-portfolio-site-tour.gif`](05-portfolio-site-tour.gif) | A pass over the published portfolio site |
+| [`06-territory-dashboard.gif`](06-territory-dashboard.gif) | The Territory Dashboard static demo |
+| [`07-cashi-rag.gif`](07-cashi-rag.gif) | The Cashi RAG chatbot answering with ranked snippets |
+| [`08-quant-notebook.gif`](08-quant-notebook.gif) | The executed quantitative-finance notebook |
+
+Each project folder also keeps its own recording in `demo/` next to its code.
 
 Live site: https://yoyo1505.github.io/My_Portfolio/
 
