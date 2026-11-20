@@ -20,7 +20,7 @@ The 6 failures:
 
 No answer contained an amount or date that was absent from the tool results, and no answer leaked another customer's data.
 
-## Run 2 (cancelled after 14 of 25 cases) - `eval/results/llama3.1-8b-run2-partial-cancelled.log`
+## Run 2 (cancelled after 14 of 25 cases) - `eval/results/llama3.1-8b-run2-partial-cancelled.txt`
 
 Changes: `get_order` accepts a merchant or item reference (still limited to the customer's own orders), `list_orders` exposes refund, dispute and reschedule state, and the prompt requires amount, date and status.
 
