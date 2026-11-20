@@ -12,11 +12,12 @@ This folder is the source code of the application plus a synthetic-data generato
 pip install -r requirements.txt dash-bootstrap-components waitress scikit-learn
 python synthetic/make_consolidado.py          # inputs: datos/*.parquet, Excel catalogs, demo users
 python codigo/build_data.py --rebuild --actualizar-catalogos --solo semanal   # builds aggs/ and dashboard.duckdb (~10 s)
+python -m rag.monitoreo train --promover && python -m rag.monitoreo score   # anomaly model for the Alerts tab
 python dash_app/app.py                        # http://127.0.0.1:8050  (admin1 / admin123, analista1 / analista123)
 python synthetic/capture_dash.py              # re-records the tour with headless Chrome
 ```
 
-The synthetic set has 191 locations, 21 accounts and 53 weeks (about 590,000 fact rows) with actuals up to week 42. Tabs that need other private inputs (digital channel, expansion closings workbook, labelled evaluation data) start empty or are skipped.
+The synthetic set has 191 locations, 21 accounts and 53 weeks (about 590,000 fact rows) with actuals up to week 42. The generator also injects 40 cost spikes so the alerts have something to find, and `rag/conocimiento/CONOCIMIENTO_CASHI.md` is a synthetic knowledge file for the assistant. To fill the Alerts tab, train and score the monitor once: `python -m rag.monitoreo train --promover && python -m rag.monitoreo score`. Tabs that need other private inputs (digital channel, expansion closings workbook, labelled evaluation data) start empty or are skipped.
 
 ## What is inside
 
@@ -40,5 +41,5 @@ The synthetic set has 191 locations, 21 accounts and 53 weeks (about 590,000 fac
 
 ## What was left out
 
-Real data and catalogs, the company logo and background image (replaced by generated placeholders), the PowerPoint and Excel templates, change logs and design notes that contain real figures and people, and the hand-labelled evaluation files built from real user questions. Some modules that depend on those templates (`codigo/ppt_semanal`) are included for reference but cannot run without them.
+Real data and catalogs, the company logo and background image (replaced by generated placeholders), the PowerPoint and Excel templates, change logs and design notes that contain real figures and people, and the hand-labelled evaluation files built from real user questions (the knowledge file is replaced by a synthetic one). Some modules that depend on those templates (`codigo/ppt_semanal`) are included for reference but cannot run without them.
 

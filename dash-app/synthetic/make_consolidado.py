@@ -64,7 +64,7 @@ def build():
     over = set(rng.choice(cecos["ID_CENTRO_COSTOS"], 10, replace=False))
     for c in cecos.itertuples():
         for a in cuentas.itertuples():
-            base = a.base * c.size * 1000
+            base = a.base * c.size * 20000
             season = 1 + 0.08 * np.sin(2 * np.pi * (weeks - 8) / 52) + np.where(weeks >= 44, 0.1, 0.0)
             bias = rng.normal(1, 0.06)
             plan = base * season * rng.normal(1, 0.01, 53)
@@ -78,6 +78,18 @@ def build():
                                             "monto_loc": np.round(vals[keep], 2), "MES": month[keep],
                                             "ID_CENTRO_COSTOS": c.ID_CENTRO_COSTOS, "ID_CONCEPTO_CUENTA_NIV3": a.ID_CONCEPTO_CUENTA_NIV3}))
     df = pd.concat(frames, ignore_index=True)
+    spikes = []
+    idx_r26 = df.index[df["Serie"] == "R26"]
+    keys = df.loc[idx_r26, ["ID_CENTRO_COSTOS", "ID_CONCEPTO_CUENTA_NIV3"]].drop_duplicates().reset_index(drop=True)
+    pick = keys.sample(40, random_state=5)
+    for k, row in enumerate(pick.itertuples()):
+        week = int(rng.integers(36, 43)) if k < 15 else int(rng.integers(14, 36))
+        m = (df["Serie"] == "R26") & (df["ID_CENTRO_COSTOS"] == row.ID_CENTRO_COSTOS) & (df["ID_CONCEPTO_CUENTA_NIV3"] == row.ID_CONCEPTO_CUENTA_NIV3) & (df["sem"] == week)
+        factor = float(rng.uniform(4.0, 7.0))
+        df.loc[m, ["monto_cons", "monto_loc"]] = (df.loc[m, ["monto_cons", "monto_loc"]] * factor).round(2).values
+        spikes.append((row.ID_CENTRO_COSTOS, row.ID_CONCEPTO_CUENTA_NIV3, week, round(factor, 2)))
+    (ROOT / "datos").mkdir(exist_ok=True)
+    (ROOT / "datos" / "picos_inyectados.json").write_text(json.dumps(spikes), encoding="utf-8")
     ce = cecos.drop(columns="size")
     cu = cuentas.drop(columns=["base", "cat_Contraloria", "cat_Contraloria_6"])
     df = df.merge(cu, on="ID_CONCEPTO_CUENTA_NIV3").merge(ce, on="ID_CENTRO_COSTOS")

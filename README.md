@@ -4,6 +4,8 @@ Applied finance and AI projects, each with a live browser demo, its source code,
 
 ![Opex Control tour](docs/opex-control/media/tour.gif)
 
+Shareable GIFs of every project (under 1 MB each) are in [`share/`](share/README.md).
+
 ## Tour of the published site
 
 ![Site tour](docs/media/site-tour.gif)

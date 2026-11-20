@@ -26,6 +26,11 @@ from .modelo import ModeloNoEntrenado, backtest, causas, entrenar, psi, puntuar,
 CANALES = ["Fisico", "Digital"]
 
 
+def _canales_disponibles():
+    from . import datos as _d
+    return CANALES if (_d.AGGS / "digitales.duckdb").exists() else ["Fisico"]
+
+
 def _preparar(con, canal, hasta):
     panel = datos.leer_panel(con, canal, hasta)
     return panel, construir(panel)
@@ -36,7 +41,7 @@ def cmd_train(a) -> int:
     fin = a.fin or smr
     con = datos.conectar()
     modelos, paneles, bt = {}, [], {}
-    for canal in CANALES:
+    for canal in _canales_disponibles():
         panel, feat = _preparar(con, canal, fin)
         if panel.is_empty():
             print(f"[{canal}] sin datos: se omite")
@@ -72,7 +77,7 @@ def cmd_score(a) -> int:
     con = datos.conectar()
     filas, estado = [], {"version": v, "fecha_scoring": dt.datetime.now().isoformat(timespec="seconds"),
                          "sem_max_real": smr, "entrenado_hasta": m["fin_entrenamiento"], "canales": {}}
-    for canal in CANALES:
+    for canal in _canales_disponibles():
         try:
             obj = registro.cargar(canal, v)
         except ModeloNoEntrenado:
