@@ -1,0 +1,139 @@
+/* ==========================================================================
+   FILTROS Y CONTROLES — estilo iPhone con los colores de Aurora (actualizado 2026-10-28)
+   Filtros globales = dock flotante de 4 íconos (Canal, Monto, Cuándo, Qué), píldora blanca con contorno rojo, centrada
+   bajo el dock de pestañas; cada ícono abre solo su panel (dock.js alterna .abierta). Controles segmentados en píldora,
+   menús rellenos en gris suave, deslizador con marca redonda.
+   Se carga después de custom.css y manda sobre él. Íconos: iconos.css. Tema general y dock de pestañas: zzz_tema.css.
+   ========================================================================== */
+:root {
+  --rojo: #a93226; --rojo-t: #fbeceb; --trk: #e8ebf0; --hair: #e6e9ee; --linea: #d9dee5;
+  --tinta: #1e2430; --t2: #475569; --t3: #6b7280; --pan: #ffffff;
+  --card-sh: 0 1px 2px rgba(30, 36, 48, 0.05), 0 10px 28px rgba(30, 36, 48, 0.07);
+  --Dash-Fill-Interactive-Strong: #a93226; --Dash-Fill-Interactive-Weak: #fbeceb;
+}
+:root[data-theme="dark"] {
+  --rojo-t: #3a1a17; --trk: #2a3342; --hair: #2a3342; --linea: #394356; --tinta: #e8ecf3; --t2: #c4cdda; --t3: #9aa6b8; --pan: #181e28;
+  --card-sh: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Fila de docks: filtros globales (izquierda) y pestañas (derecha), lado a lado y centrados.
+   La base del dock de pestañas está en zzz_tema.css; el de filtros usa la misma píldora gris/blanca. ---------- */
+html body .nav-tabs-custom { display: flex !important; flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 24px; height: auto !important; min-height: 60px; }
+html body .nav-tabs-custom > :not(.top-filter-bar) { display: flex !important; align-items: center; flex: 0 1 auto !important; width: auto !important; min-width: 0; margin: 0 !important; padding: 0 !important; height: 60px !important; align-self: center; }
+html body .nav-tabs-custom .tab-content, html body .nav-tabs-custom .tab-pane:empty { display: none !important; }
+html body .nav-tabs-custom .nav { width: max-content !important; max-width: 100% !important; height: 60px; box-sizing: border-box; margin: 0 !important; justify-content: center !important; align-items: center; gap: 6px !important; }
+html body .nav-tabs-custom .nav-link { width: 48px; height: 48px; }
+
+/* ---------- Dock de filtros globales: mismo estilo que el de pestañas; solo se resalta el ícono abierto ---------- */
+html body .top-filter-bar { position: relative !important; top: 0 !important; flex: 0 0 auto; width: auto !important; margin: 0 !important; padding: 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; backdrop-filter: none !important; pointer-events: auto; z-index: 30 !important; }
+.tfb-grid { position: relative; display: flex; align-items: center; gap: 2px; height: 60px; box-sizing: border-box; padding: 6px; background: rgba(255, 255, 255, 0.84); backdrop-filter: saturate(180%) blur(22px); -webkit-backdrop-filter: saturate(180%) blur(22px); border: 1px solid rgba(30, 36, 48, 0.08); border-radius: 26px; box-shadow: 0 10px 30px rgba(30, 36, 48, 0.16), 0 1px 4px rgba(30, 36, 48, 0.08); }
+:root[data-theme="dark"] .tfb-grid { background: rgba(24, 30, 40, 0.86); border-color: rgba(255, 255, 255, 0.08); }
+.tfb-celda { display: block; }
+.tfb-burbuja { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 20px; color: var(--t3); background: transparent; cursor: pointer; transition: background 0.15s, color 0.15s; }
+.tfb-burbuja .ico { font-size: 22px; }
+.tfb-burbuja:hover { background: rgba(169, 50, 38, 0.07); color: var(--rojo); }
+.tfb-celda.abierta .tfb-burbuja { background: var(--rojo-t); color: var(--rojo); }
+.tfb-panel { display: none; position: absolute; left: 50%; top: calc(100% + 12px); transform: translateX(-50%); min-width: 420px; width: max-content; max-width: min(560px, 92vw); padding: 14px 20px 18px; background: var(--pan); border-radius: 20px; box-shadow: 0 22px 50px rgba(30, 36, 48, 0.24), 0 0 0 1px rgba(30, 36, 48, 0.07); z-index: 60; }
+.tfb-celda.abierta .tfb-panel { display: block; }
+.tfb-pila { display: flex; flex-direction: column; gap: 14px; }
+.tfb-fila { display: flex; align-items: center; gap: 12px; }
+.tfb-fila > div:first-child { flex: 1; min-width: 0; }
+.tfb-badge { background: var(--rojo); color: #fff; font: 700 11px/1 inherit; padding: 6px 11px; border-radius: 999px; white-space: nowrap; }
+.tfb-quad { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tfb-dd { position: relative; min-width: 0; }
+.tfb-dd-lbl { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 800; color: var(--tinta); pointer-events: none; z-index: 2; }
+.tfb-dd .dash-dropdown-trigger { padding-left: var(--lw, 90px) !important; }
+.ico-coin { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M14.8 9.2c-.5-.8-1.5-1.2-2.8-1.2-1.7 0-2.8.8-2.8 2s1.1 1.7 2.8 2 2.8.8 2.8 2-1.1 2-2.8 2c-1.3 0-2.3-.4-2.8-1.2M12 6v2m0 8v2'/%3E%3C/svg%3E"); }
+
+/* ---------- Campos de los filtros de cada página (campo() / grid()) ---------- */
+.filtros-grid { display: grid; grid-template-columns: 1fr 1.618fr 1fr; gap: 13px 21px; align-items: end; margin-top: 13px; }
+.filtros-grid > * { min-width: 0; }
+.filtros-grid > .filtros-span-2 { grid-column: span 2; }
+.filtros-dato, .filtros-descarga { display: flex; align-items: center; min-height: 36px; font-size: 13px; font-weight: 700; color: var(--tinta); }
+.tfb-campo { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.tfb-label, html body .top-filter-label { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: none; letter-spacing: 0; margin: 0; }
+/* La tarjeta de filtros queda por encima del árbol/tabla que sigue: su menú se sobrepone y no se corta */
+html body .shadow-sm:has(.filtros-grid) { position: relative !important; z-index: 40 !important; }
+html body .shadow-sm:has(.filtros-grid) { background: var(--pan) !important; border: 0 !important; border-radius: 20px !important; box-shadow: var(--card-sh) !important; padding: 8px 20px 18px !important; }
+
+/* ---------- Menús desplegables: relleno gris suave, sin borde ---------- */
+html body #root-application-layout .dash-dropdown {
+  box-sizing: border-box; min-height: 36px; width: 100%; background: var(--trk) !important; color: var(--tinta);
+  border: 0 !important; border-radius: 12px !important; box-shadow: none !important; outline: none !important;
+  font-size: 12px; font-weight: 600; transition: box-shadow 0.15s ease;
+}
+html body #root-application-layout .dash-dropdown:hover { box-shadow: 0 0 0 1.5px rgba(169, 50, 38, 0.35) !important; }
+html body #root-application-layout .dash-dropdown:focus, html body #root-application-layout .dash-dropdown:focus-within, html body #root-application-layout .dash-dropdown[data-state="open"] { box-shadow: 0 0 0 3px rgba(169, 50, 38, 0.2) !important; }
+html body #root-application-layout .dash-dropdown-trigger { min-height: 36px; padding: 0 14px; display: flex; align-items: center; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+html body #root-application-layout .dash-dropdown-placeholder { color: var(--t3); font-weight: 600; }
+html body #root-application-layout .dash-dropdown-value-count { background: var(--rojo); color: #fff; border-radius: 999px; font-size: 10px; font-weight: 800; padding: 2px 8px; }
+html body #root-application-layout .dash-dropdown-trigger-icon { color: var(--rojo); fill: var(--rojo); }
+html body #root-application-layout .dash-dropdown-content { background: var(--pan); border: 0 !important; border-radius: 14px !important; box-shadow: 0 16px 40px rgba(30, 36, 48, 0.2), 0 0 0 1px rgba(30, 36, 48, 0.06) !important; z-index: 3000 !important; max-height: min(260px, 50vh) !important; overflow-x: hidden !important; overflow-y: auto !important; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #b8c0cc transparent; }
+html body #root-application-layout .dash-dropdown-content::-webkit-scrollbar { width: 8px; }
+html body #root-application-layout .dash-dropdown-content::-webkit-scrollbar-thumb { background: #b8c0cc; border-radius: 8px; border: 2px solid transparent; background-clip: content-box; }
+html body #root-application-layout .dash-dropdown-content::-webkit-scrollbar-thumb:hover { background: var(--rojo); background-clip: content-box; }
+html body #root-application-layout .dash-dropdown-search-container { border: 0; border-radius: 10px; background: var(--trk); margin: 8px; }
+html body #root-application-layout .dash-dropdown-search { color: var(--tinta); }
+html body #root-application-layout .dash-dropdown-action-button { font-size: 11px; font-weight: 700; color: var(--t3); }
+html body #root-application-layout .dash-dropdown-action-button:hover { color: var(--rojo); }
+html body #root-application-layout .dash-dropdown-option { font-size: 13px; font-weight: 600; cursor: pointer; }
+html body #root-application-layout .dash-dropdown-option:hover { background: var(--rojo-t); color: var(--rojo); }
+html body #root-application-layout .dash-dropdown-option:has(input:checked) { background: var(--rojo); color: #fff; }
+html body #root-application-layout .dash-dropdown-option:has(input:checked):hover { background: #8c241b; color: #fff; }
+
+/* ---------- Controles segmentados: píldora con ficha blanca (como iOS) ---------- */
+html body #root-application-layout .segmented-control {
+  display: flex; align-items: center; gap: 2px; padding: 3px; min-height: 36px; box-sizing: border-box; width: 100%;
+  background: var(--trk) !important; border: 0 !important; border-radius: 999px !important; box-shadow: none !important; overflow: hidden;
+}
+html body #root-application-layout .segmented-control .form-check { margin: 0 !important; padding: 0 !important; display: flex; flex: 1 1 0; min-height: 0; }
+html body #root-application-layout .segmented-control .form-check + .form-check { border: 0; }
+html body #root-application-layout .segmented-control .form-check-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+html body #root-application-layout .segmented-control .form-check-label {
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 30px; margin: 0 !important; padding: 0 12px;
+  border-radius: 999px !important; font-size: 12px; font-weight: 600; color: var(--t2); background: transparent; white-space: nowrap; cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+html body #root-application-layout .segmented-control .form-check-label:hover { color: var(--rojo); }
+html body #root-application-layout .segmented-control .form-check-input:checked + .form-check-label { background: #fff; color: var(--rojo); font-weight: 800; box-shadow: 0 1px 3px rgba(30, 36, 48, 0.2), 0 0 0 0.5px rgba(30, 36, 48, 0.06); }
+:root[data-theme="dark"] .segmented-control .form-check-input:checked + .form-check-label { background: #3a4558; color: #fff; }
+html body #root-application-layout .segmented-control .form-check-input:focus-visible + .form-check-label { outline: 2px solid var(--rojo); outline-offset: 1px; }
+html body #root-application-layout .segmented-control > div { display: flex; flex: 1 1 auto; width: 100%; gap: 2px; }
+html body #root-application-layout .segmented-control .form-check-inline { margin-right: 0 !important; }
+
+/* ---------- Cajas de texto ---------- */
+html body input.form-control, html body .form-select {
+  min-height: 36px; background: var(--trk); color: var(--tinta); border: 0 !important; border-radius: 12px !important;
+  box-shadow: none !important; font-size: 13px; font-weight: 600; padding: 0 14px;
+}
+html body input.form-control:focus, html body .form-select:focus { box-shadow: 0 0 0 3px rgba(169, 50, 38, 0.2) !important; outline: none; }
+
+/* ---------- Deslizadores: riel suave, tramo rojo, marca redonda con sombra ---------- */
+html body .top-filter-bar .dash-slider-track { background: var(--trk); height: 4px; border-radius: 4px; }
+html body .top-filter-bar .dash-slider-range { background: var(--rojo); border-radius: 4px; }
+html body .top-filter-bar .dash-slider-thumb { width: 18px; height: 18px; border-radius: 50% !important; border: 0 !important; background: #fff !important; box-shadow: 0 1px 4px rgba(30, 36, 48, 0.35), 0 0 0 0.5px rgba(30, 36, 48, 0.1) !important; }
+html body .top-filter-bar .dash-slider-mark { color: var(--t3); font-weight: 600; font-size: 10px; }
+
+/* ---------- Botones de descarga: píldora rojiza ---------- */
+html body .vt-dl-btns { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+html body .vt-dl-btns .btn, html body .btn.vt-dl-btns, html body .btn-exec-download {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 32px; padding: 0 16px;
+  background: var(--rojo-t) !important; color: var(--rojo) !important; border: 0 !important; border-radius: 999px !important;
+  box-shadow: none !important; font-size: 12px; font-weight: 700; letter-spacing: 0; text-transform: none; white-space: nowrap;
+}
+html body .vt-dl-btns .btn:hover, html body .btn-exec-download:hover { background: var(--rojo) !important; color: #fff !important; }
+
+/* ---------- Adaptación ---------- */
+@media (max-width: 1100px) {
+  .filtros-grid { grid-template-columns: 1fr 1fr; }
+  .filtros-grid > .filtros-span-2 { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) { .filtros-grid, .tfb-quad { grid-template-columns: 1fr; } }
+
+/* ---------- Periodo siempre visible junto al ícono Cuándo + semanas escritas a mano ---------- */
+.tfb-celda-cuando { display: flex; align-items: center; gap: 4px; }
+.tfb-chip-periodo { background: var(--rojo-t); color: var(--rojo); font: 700 12px/1 inherit; padding: 7px 11px; border-radius: 999px; white-space: nowrap; margin-right: 6px; }
+.tfb-num { display: flex; gap: 12px; margin-top: 12px; }
+.tfb-num-campo { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 800; color: var(--tinta); }
+.tfb-num-input { width: 76px; padding: 6px 8px; border: 1px solid rgba(30, 36, 48, 0.18); border-radius: 10px; background: var(--pan); color: var(--tinta); font-size: 13px; font-weight: 700; text-align: center; }
+.tfb-num-input:focus { outline: none; border-color: var(--rojo); box-shadow: 0 0 0 3px var(--rojo-t); }

@@ -1,0 +1,1383 @@
+/* ==========================================================================
+   SUITE FINANCIERA GRUPO AURORA — ARCHITECTURAL LUXURY MINIMALISM & APPLE iOS
+   - Inspirado en Bauhaus, Dieter Rams ("Menos, pero mejor"), Canva Luxury y Apple HIG.
+   - Tipografía: Inter & Apple SF Pro con cifras tabulares proporcionales (sin máquinas de escribir).
+   - Paleta 60-30-10: Lienzo Porcelana / Alabastro Galería, Tarjetas Blanco Puro, Acento Contable Carmesí.
+   - Proporción Áurea (Fibonacci 5px, 8px, 13px, 21px, 980px) en radios y espaciados.
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Public+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* 2026-09-15: el tamaño de letra "seguía enorme" pese a poner font-size en
+     `body` — bug real: todas las unidades `rem` del proyecto se calculan
+     contra el font-size del elemento RAÍZ (<html>), no el de <body>, así que
+     ese cambio anterior no afectaba a casi nada. Se fija aquí, en :root, que
+     es lo que de verdad controla el tamaño de TODO lo medido en rem. */
+  font-size: 12px;
+
+  /* Paleta e identidad EXACTA de "<LEGACY_PROJECT>" (Streamlit,
+     producción) — esta app Dash debe verse igual, no es un sistema propio. */
+  /* 2026-10-09: paleta de series y rojo copiados tal cual de Spend Legacy
+     (codigo/app.py, COLOR y :root). El rojo queda RESERVADO para la regla
+     contable "todo gasto va en rojo" (.vt-num-gasto); el acento de
+     marca/interacción es --brand-accent. */
+  --arg-rojo: #a93226;
+  --arg-rojo-claro: #f1948a;
+  --arg-gris: #ccd1d9;
+  --arg-azul: #5dade2;
+  --arg-forecast: #8a93a0;
+  --brand-accent: #184f95;          /* acento de marca: foco, hover, botones activos */
+  --brand-accent-subtle: #eaf1fb;
+  --accion: #23262b;               /* color de botones/acciones (no compite con el rojo) */
+
+  /* Series de dinero — idénticas a COLOR de Spend Legacy:
+     Real 2025 gris / Real 2026 rojo claro / Plan 2026 rojo Aurora / Forecast gris azulado. */
+  --serie-plan: #a93226;
+  --serie-forecast: #8a93a0;
+  --serie-real: #f1948a;
+  --serie-real-anterior: #ccd1d9;
+  --font-display: "Manrope", -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+
+  --r-sm: 8px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 12px;
+  --r-pill: 980px;
+
+  --bg-app: #f4f6f9;
+  --bg-surface-primary: #ffffff;
+  --bg-surface-secondary: #f4f6f9;
+  --bg-dock: rgba(255, 255, 255, 0.92);
+
+  --border-subtle: #e2e6ed;
+  --border-medium: #ccd1d9;
+  --border-active: var(--accion);
+
+  --accent-gasto: var(--arg-rojo);
+  --accent-carmesi: var(--arg-rojo);
+  --accent-carmesi-subtle: #fdf1ef;
+  --accent-esmeralda: #1e7d43;
+  --accent-esmeralda-subtle: #f0fdf4;
+  --accent-warning: #b45309;
+  --accent-warning-subtle: #fffbeb;
+
+  --text-primary: #1e2430;
+  --text-secondary: #475569;
+  --text-tertiary: #6b7280;
+
+  /* Resaltado amarillo de la columna CONTA en el árbol de Ppto 2027 (igual
+     que Ppto 2027/app.py) */
+  --arg-amarillo-head: #ffe9a8;
+  --arg-amarillo-cell: #fffbeb;
+  --arg-amarillo-tot: #fff2a8;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-floating: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em;
+}
+
+/* Remover efecto hover global de Bootstrap */
+.table-hover tbody tr:hover,
+tbody tr:hover,
+.row:hover,
+[class*="row"]:hover {
+  background-color: transparent !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Números Tabulares — Public Sans, igual que la app Streamlit de referencia */
+.tabular-nums, .vt-kpi-sub, table.vt-var td, .vt-row span {
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Regla contable de "Spend Legacy": todo monto de gasto va en ROJO y
+   entre paréntesis (MC() ya arma el paréntesis; aquí solo el color — se había
+   quitado por error al re-tematizar el CSS, restaurado 2026-09-15). */
+.vt-num-gasto {
+  color: var(--arg-rojo) !important;
+  font-weight: 600;
+}
+
+/* Contenedor Principal */
+.main-app-container {
+  max-width: 1680px;
+  margin: 0 auto;
+}
+
+/* Header Ejecutivo Apple */
+.exec-header {
+  background: var(--bg-surface-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.exec-header-title {
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.exec-header-badge {
+  background: #f2f2f7;
+  border: 1px solid rgba(60, 60, 67, 0.12);
+  color: #3a3a3c;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+}
+
+/* Nav Tabs — barra de pestañas horizontal con scroll (estilo macOS/Apple:
+   subrayado fino en la pestaña activa, sin fondos ni píldoras que se
+   amontonen al tener muchas pestañas). Reemplaza el segmented-control de
+   pastillas, que con 13+ pestañas se envolvía en varias filas apretadas. */
+.nav-tabs-custom {
+  background-color: var(--bg-surface-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  padding: 0 12px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 2px;
+  scrollbar-width: thin;
+}
+.nav-tabs-custom::-webkit-scrollbar { height: 5px; }
+.nav-tabs-custom::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 10px; }
+
+.nav-tabs-custom .nav-link {
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  color: var(--text-tertiary) !important;
+  font-weight: 550 !important;
+  font-size: 0.8rem !important;
+  padding: 11px 14px 9px !important;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  transition: color 0.15s ease, border-color 0.15s ease !important;
+  background: transparent !important;
+}
+
+.nav-tabs-custom .nav-link:hover {
+  color: var(--text-primary) !important;
+}
+
+.nav-tabs-custom .nav-link.active {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+  font-weight: 700 !important;
+  border-bottom-color: var(--brand-accent) !important;
+  box-shadow: none !important;
+}
+
+/* Top Filter Bar Toolbar Flotante con Frosted Glass */
+.top-filter-bar {
+  background: var(--bg-dock);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  padding: 14px 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-floating);
+  position: sticky;
+  top: 10px;
+  z-index: 1000;
+}
+
+/* 2026-09-15: clústeres "Cuándo" / "Qué" de la barra de filtros — reemplaza
+   la grilla plana de 6 columnas iguales por dos grupos con identidad propia
+   (encabezado con ícono + fondo tenue), separados por un divisor vertical
+   con el acento de marca en vez de una simple línea gris. */
+
+@media (max-width: 991.98px) {
+}
+
+.top-filter-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Tarjetas KPI — mismo formato que "Spend Legacy" (Streamlit, .vt-kpi):
+   tarjeta blanca, título uppercase
+   gris, valor grande en Manrope, señal de variación debajo. */
+.vt-kpi-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 1px 3px rgba(30, 36, 48, 0.05);
+  height: 100%;
+}
+
+.vt-kpi-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.vt-kpi-value {
+  font-family: var(--font-display);
+  font-size: 2.05rem;
+  font-weight: 800;
+  color: var(--text-primary) !important;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0;
+}
+
+.vt-kpi-sub {
+  margin-top: 12px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.vt-kpi-sub.text-secondary, .vt-kpi-sub.text-muted { color: #5b6470 !important; }
+
+/* Señal de variación del KPI (flecha + monto + etiqueta) — paridad con
+   _senal()/.vt-sig-* del original: gasto arriba de la referencia (monto>0)
+   = rojo con flecha arriba; abajo = verde con flecha abajo; sin variación
+   = gris con "=". */
+.vt-kpi-arrow { font-size: 0.8em; }
+.vt-kpi-et { font-weight: 500; color: var(--text-tertiary); font-size: 0.82rem; }
+.vt-sig-alza { color: var(--arg-rojo) !important; }
+.vt-sig-baja { color: #1e7d43 !important; }
+.vt-sig-cero { color: #5b6470 !important; }
+
+/* Tablas Jerárquicas y Tablas de Variaciones (Proporción Áurea) */
+.vt-tree-wrap, .vt-var-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: max(480px, calc(100vh - 240px));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface-primary);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* Árbol de Resumen: se muestra completo, la página es la que hace scroll. */
+.vt-tree-wrap.vt-tree-wrap--libre { max-height: none; overflow-y: visible; }
+
+/* Menús desplegables (Dash 4: popover en portal) por encima de encabezados/totales sticky
+   de los árboles (z-index 10-21) y de la barra de filtros. */
+.dash-dropdown-content,
+[data-radix-popper-content-wrapper] { z-index: 3000 !important; }
+
+/* En pantallas bajas la barra de filtros no se queda pegada: ocupaba media pantalla. */
+@media (max-height: 900px) {
+  .top-filter-bar { position: static; }
+}
+
+/* Comparación de Versiones: dos árboles apilados -- cada uno más bajo para que el
+   segundo quede visible sin tener que salir primero del scroll interno del primero. */
+.vt-cmp-full .vt-tree-wrap {
+  max-height: 440px;
+  margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   ÁRBOL — copiado literal de _ARBOL_CSS en "Spend Legacy\codigo\app.py"
+   (grid fijo 340px + N columnas de 132px, NO proporciones inventadas). Los
+   intentos anteriores con anchos "a ojo" se desalineaban en cuanto el número
+   de columnas cambiaba (bug real reportado 2026-09-15: columnas encimadas).
+   ========================================================================== */
+.vt-tree {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-family: var(--font-body);
+}
+
+.vt-row {
+  display: grid;
+  grid-template-columns: 340px repeat(10, minmax(132px, 1fr));
+  min-width: 1660px;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid #eef0f4;
+  background: #ffffff;
+  transition: background 0.15s ease;
+}
+
+/* Variante con 3 columnas extra (Forecast, vs FC, vs FC %) — árbol de Resumen. */
+.vt-row.vt-row-fc {
+  grid-template-columns: 340px repeat(13, minmax(132px, 1fr));
+  min-width: 2036px;
+}
+
+.vt-row > span {
+  text-align: right;
+  white-space: nowrap;
+  padding: 3px 12px;
+  border-left: 1px solid #f2f4f7;
+  font-variant-numeric: tabular-nums;
+}
+
+.vt-row > span:first-child {
+  text-align: left;
+  border-left: none;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ffffff;
+  box-shadow: 2px 0 3px -1px rgba(0, 0, 0, 0.06);
+}
+
+.vt-row:hover { background: #f1f5f9 !important; }
+.vt-row:hover > span:first-child { background: #f1f5f9 !important; }
+
+.vt-row.vt-head {
+  position: sticky;
+  top: 0;
+  background: #f1f3f6 !important;
+  color: #111827 !important;
+  font-weight: 800 !important;
+  z-index: 10;
+  border-bottom: 2px solid #cfd4dc !important;
+}
+.vt-row.vt-head > span { text-align: center !important; color: #111827 !important; font-weight: 800 !important; }
+.vt-row.vt-head > span:first-child { text-align: left !important; background: #f1f3f6 !important; z-index: 12; }
+
+.vt-row.vt-tot {
+  position: sticky;
+  bottom: 0;
+  background: #f1f3f6 !important;
+  font-weight: 800 !important;
+  border-top: 2px solid #cfd4dc !important;
+  z-index: 9;
+}
+.vt-row.vt-tot > span:first-child { background: #f1f3f6 !important; z-index: 11; }
+
+/* Resalte amarillo de Real 2026 (regla de presentación fija del original) */
+.vt-r26-head { background-color: #ffe9a8 !important; color: #111827 !important; font-weight: 800 !important; }
+.vt-r26 { background-color: #fffbeb !important; font-weight: 600; }
+
+/* Indicadores semánticos de variación — mismos tonos que el original */
+.vt-var-pos { color: #78281f !important; font-weight: 600 !important; background: transparent !important; }
+.vt-var-neg { color: #145a32 !important; font-weight: 600 !important; background: transparent !important; }
+
+.vt-row.vt-nvl0 { background: #f8fafc; font-size: 12.5px; }
+.vt-row.vt-nvl0 > span:first-child { font-weight: 700 !important; color: #0f172a; }
+.vt-row.vt-nvl1 > span:first-child { font-weight: 600 !important; color: #1e293b; }
+.vt-row.vt-nvl2 > span:first-child { font-weight: 600; color: #334155; }
+.vt-row.vt-nvl3 > span:first-child,
+.vt-row.vt-nvl4 > span:first-child { font-weight: 500; color: #475569; }
+.vt-row.vt-nvl5 > span:first-child { font-weight: 400; color: #475569; }
+
+/* Botón de Expansión del Árbol (Radio 5px Fibonacci) */
+.vt-tree-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  line-height: 1;
+  font-size: 13px;
+  font-weight: 750;
+  border: 1px solid var(--border-medium);
+  background: #ffffff;
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.vt-tree-btn:hover {
+  background: var(--accion);
+  border-color: var(--accion);
+  color: #ffffff;
+}
+
+/* Botón "Cargar más" de Ramas (Apple iOS Pill) */
+.vt-load-more-wrap {
+  padding: 6px 16px 10px 16px;
+  background: inherit;
+}
+
+.vt-load-more-btn {
+  background: rgba(35, 38, 43, 0.08);
+  color: var(--accion);
+  border: 1px solid rgba(35, 38, 43, 0.22);
+  border-radius: var(--r-pill);
+  padding: 5px 16px;
+  font-size: 0.81rem;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vt-load-more-btn:hover {
+  background: var(--accion);
+  color: #ffffff;
+  border-color: var(--accion);
+  box-shadow: 0 2px 8px rgba(35, 38, 43, 0.25);
+}
+
+/* Badges Ejecutivos (Radio 5px Fibonacci) */
+.badge-overspend {
+  background-color: var(--accent-carmesi-subtle);
+  border: 1px solid #fecdd3;
+  color: var(--accent-carmesi);
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 3px 10px;
+  border-radius: var(--r-sm);
+}
+
+.badge-warning {
+  background-color: var(--accent-warning-subtle);
+  border: 1px solid #fde68a;
+  color: var(--accent-warning);
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 3px 10px;
+  border-radius: var(--r-sm);
+}
+
+.badge-savings {
+  background-color: var(--accent-esmeralda-subtle);
+  border: 1px solid #bbf7d0;
+  color: var(--accent-esmeralda);
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 3px 10px;
+  border-radius: var(--r-sm);
+}
+
+/* Tablas de Variaciones */
+table.vt-var {
+  width: 100%;
+  min-width: 580px;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+table.vt-var th {
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 2px solid var(--border-medium);
+  font-weight: 750;
+  color: var(--text-secondary);
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  z-index: 2;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+table.vt-var td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(60, 60, 67, 0.08);
+  vertical-align: middle;
+}
+
+table.vt-var tr:hover td {
+  background-color: #f2f2f7;
+}
+
+table.vt-var td:nth-child(2), table.vt-var th:nth-child(2),
+table.vt-var td:nth-child(3), table.vt-var th:nth-child(3),
+table.vt-var td:nth-child(4), table.vt-var th:nth-child(4),
+table.vt-var td:nth-child(5), table.vt-var th:nth-child(5),
+table.vt-var td:nth-child(6), table.vt-var th:nth-child(6),
+table.vt-var td:nth-child(7), table.vt-var th:nth-child(7),
+table.vt-var td:nth-child(8), table.vt-var th:nth-child(8) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+table.vt-var td:not(:first-child) {
+  color: #b91c1c;
+  font-weight: 550;
+}
+
+/* ==========================================================================
+   INTERACTIVIDAD FLUIDA Y CINEMÁTICA ESTILO APPLE / STEVE JOBS
+   - Transiciones orgánicas basadas en curvas físicas (cubic-bezier)
+   - Despliegue con efecto de video suave (fade-in & slide-up)
+   - Microinteracciones responsivas en tarjetas, botones y selectores
+   ========================================================================== */
+@keyframes appleFluidReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+#page-content-area {
+  animation: appleFluidReveal 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Elevación orgánica en tarjetas con sombra ambiental difusa */
+.vt-kpi-card, .card, .bg-white.border.rounded {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s ease !important;
+}
+
+.vt-kpi-card:hover, .card:hover {
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Microinteracciones elásticas en botones Apple */
+button, .btn, .btn-exec-download {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+button:active, .btn:active, .btn-exec-download:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   BARRA DE FILTROS SUPERIOR — REDISEÑO "APPLE KEYNOTE / iOS CONTROL CENTER"
+   (2026-09-15) Mismos componentes, misma lógica (ids/valores/callbacks
+   intactos) — solo cambia la piel visual: dropdowns tipo macOS, segmented
+   controls iOS en vez de radio buttons con circulito, y sliders con thumb
+   redondo y track de color de marca.
+   ========================================================================== */
+
+/* --- Barra: más aire entre secciones, transición suave general --- */
+.top-filter-bar {
+  padding: 16px 24px;
+  transition: box-shadow 0.25s ease, background 0.25s ease;
+}
+
+/* --- Dropdowns tipo macOS: más redondeados, fondo perlado, foco con acento de marca --- */
+
+/* --- Segmented control estilo iOS Control Center (reemplaza radio buttons con circulito) --- */
+.segmented-control {
+  display: inline-flex;
+  align-items: center;
+  background-color: #eceef2;
+  border-radius: var(--r-pill);
+  padding: 3px;
+  gap: 2px;
+}
+
+.segmented-control .form-check {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0;
+}
+
+.segmented-control .form-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.segmented-control .form-check-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.segmented-control .form-check-label:hover {
+  color: var(--text-primary);
+}
+
+.segmented-control .form-check-input:checked + .form-check-label {
+  background-color: #ffffff;
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(30, 36, 48, 0.16), 0 1px 1px rgba(30, 36, 48, 0.08);
+}
+
+.segmented-control .form-check-input:focus-visible + .form-check-label {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(24, 79, 149, 0.25);
+}
+
+/* Variante "Unidad Monetaria" (2 opciones, ocupa el 100% de la columna angosta) */
+.segmented-control--monto {
+  width: 100%;
+  justify-content: stretch;
+}
+
+.segmented-control--monto .form-check {
+  flex: 1 1 0;
+}
+
+.segmented-control--monto .form-check-label {
+  width: 100%;
+  padding: 6px 8px;
+}
+
+.segmented-control--filter .form-check-label {
+  padding: 6px 16px;
+}
+
+/* --- Sliders (rango de semanas / semana individual) estilo iOS/macOS ---
+   2026-09-17: estas reglas apuntaban a las clases de "rc-slider" (versión
+   vieja de dash-core-components) pero Dash 4.4.1 renderiza el slider con
+   OTRO namespace de clases ("dash-slider-*", confirmado leyendo
+   async-slider.js del paquete instalado) -- por eso nunca pegaban y el
+   slider se quedaba con el morado/violeta de fábrica de Dash. Mismas
+   reglas, clases correctas. Los thumbs de un RangeSlider llevan un sufijo
+   de índice dinámico (dash-slider-thumb-0/-1) que no es un nombre de clase
+   fijo -> se usa [class*="..."] (coincidencia por substring) en vez de un
+   selector de clase exacto para cubrir cualquier sufijo. */
+.premium-slider-wrap {
+  padding: 4px 6px 0;
+  /* 2026-09-17 (2a vuelta): el morado NO viene de estas clases sino de la
+     variable CSS global --Dash-Fill-Interactive-Strong, definida por Dash
+     mismo en :root con valor #7f4bc4 (confirmado leyendo
+     dash_core_components.js) y consumida por .dash-slider-range/-thumb Y por
+     el outline de :focus. Sobrescribir cada regla una por una nunca iba a
+     cubrir todos los estados (hover/focus/outline); redefinir la variable
+     aquí es lo único que lo cubre todo de una vez, sin !important, porque
+     los assets del usuario se cargan después del CSS interno de Dash. */
+  --Dash-Fill-Interactive-Strong: var(--arg-gris);
+}
+
+.premium-slider-wrap .dash-slider-root {
+  height: 20px;
+}
+
+.premium-slider-wrap [class*="dash-slider-track"] {
+  height: 4px;
+  border-radius: var(--r-pill);
+  background-color: #e2e6ed !important;
+}
+
+.premium-slider-wrap [class*="dash-slider-range"] {
+  height: 4px;
+  border-radius: var(--r-pill);
+  background-color: var(--arg-gris) !important;
+}
+
+.premium-slider-wrap [class*="dash-slider-thumb"] {
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 2px solid var(--arg-gris) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 4px rgba(30, 36, 48, 0.2);
+  opacity: 1;
+  transition: box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-slider-wrap [class*="dash-slider-thumb"]:hover,
+.premium-slider-wrap [class*="dash-slider-thumb"]:focus,
+.premium-slider-wrap [class*="dash-slider-thumb"]:focus-visible {
+  border-color: var(--arg-gris) !important;
+  box-shadow: 0 0 0 6px rgba(204, 209, 217, 0.35);
+}
+
+.premium-slider-wrap [class*="dash-slider-thumb"]:active {
+  border-color: var(--arg-gris) !important;
+  box-shadow: 0 0 0 6px rgba(204, 209, 217, 0.45) !important;
+  transform: scale(1.08);
+}
+
+.premium-slider-wrap [class*="dash-slider-dot"] {
+  display: none;
+}
+
+.premium-slider-wrap [class*="dash-slider-mark"] {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  font-family: var(--font-body);
+}
+
+.premium-slider-wrap .dash-slider-tooltip {
+  background-color: var(--accion) !important;
+  border-radius: var(--r-sm) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 650 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Botón Descarga Ejecutiva (Radio 8px Fibonacci) */
+.btn-exec-download {
+  background-color: #ffffff;
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  font-weight: 650;
+  font-size: 0.82rem;
+  padding: 7px 18px;
+  border-radius: var(--r-md);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: all 0.15s ease;
+}
+
+.btn-exec-download:hover {
+  background-color: var(--accion);
+  color: #ffffff;
+  border-color: var(--accion);
+}
+
+/* ==========================================================================
+   LOGIN — contraste de campos y neutralizar autofill amarillo de Chrome
+   ========================================================================== */
+.login-field-input {
+  color-scheme: light !important;
+  forced-color-adjust: none !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  caret-color: #0f172a !important;
+}
+
+#login-btn-submit:hover {
+  background: #6b1212 !important;
+}
+
+.login-field-input:focus {
+  border-color: var(--brand-accent) !important;
+  box-shadow: 0 0 0 3px rgba(24, 79, 149, 0.15) !important;
+  outline: none !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+}
+
+.login-field-input:-webkit-autofill,
+.login-field-input:-webkit-autofill:hover,
+.login-field-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ==========================================================================
+   ÁRBOL PRESUPUESTO 2027 (11 columnas: Concepto, PLAN, FCST, COMPARABILIDAD,
+   CONTA, vs PLAN $/%, vs FCST $/%, vs Comp. $/%) — mismo grid que
+   Ppto 2027/app.py (.vt-row-v1).
+   ========================================================================== */
+.ppto-tree-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 680px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface-primary);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
+.ppto-tree { display: flex; flex-direction: column; min-width: 1350px; font-size: 12px; }
+
+.ppto-row {
+  display: grid;
+  grid-template-columns:
+    minmax(300px, 3.2fr)
+    minmax(95px, 1fr) minmax(95px, 1fr) minmax(95px, 1fr) minmax(95px, 1fr)
+    minmax(90px, 1fr) minmax(60px, 0.7fr)
+    minmax(90px, 1fr) minmax(60px, 0.7fr)
+    minmax(90px, 1fr) minmax(60px, 0.7fr);
+  align-items: center;
+  border-bottom: 1px solid rgba(60, 60, 67, 0.08);
+  min-height: 38px;
+  padding: 0 16px;
+  background: #ffffff;
+}
+
+.ppto-row:hover { background-color: #f2f2f7; }
+
+.ppto-row > span:first-child {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ppto-row > span:not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding-right: 6px;
+  font-family: var(--font-body);
+}
+
+.ppto-row.ppto-head {
+  position: sticky; top: 0;
+  background: #f8fafc !important;
+  font-weight: 750;
+  color: var(--text-secondary);
+  z-index: 10;
+  border-bottom: 2px solid var(--border-medium);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ppto-row.ppto-tot {
+  position: sticky; bottom: 0;
+  background: var(--arg-amarillo-tot) !important;
+  font-weight: 800;
+  color: var(--text-primary);
+  z-index: 9;
+  border-top: 2px solid var(--border-medium);
+}
+
+.ppto-col-conta { background-color: var(--arg-amarillo-cell) !important; font-weight: 600; }
+.ppto-head .ppto-col-conta { background-color: var(--arg-amarillo-head) !important; font-weight: 800; }
+.ppto-tot .ppto-col-conta { background-color: var(--arg-amarillo-tot) !important; }
+
+.ppto-c-gasto { color: var(--arg-rojo); font-weight: 600; }
+.ppto-c-ingreso { color: var(--text-primary); font-weight: 500; }
+.ppto-c-cero { color: var(--text-tertiary); }
+.ppto-pct { color: var(--text-tertiary) !important; font-weight: 400 !important; font-size: 0.9em; }
+
+.ppto-toggle-btn {
+  width: 18px; height: 18px; padding: 0; line-height: 1; font-size: 12px;
+  font-weight: 750; border: 1px solid var(--border-medium); background: #ffffff;
+  border-radius: var(--r-sm); color: var(--text-secondary);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; flex: 0 0 auto;
+}
+.ppto-toggle-btn:hover { background: var(--accion); border-color: var(--accion); color: #fff; }
+
+.ppto-nvl1 > span:first-child { padding-left: 22px; }
+.ppto-nvl2 > span:first-child { padding-left: 40px; }
+.ppto-nvl3 > span:first-child { padding-left: 58px; }
+.ppto-nvl4 > span:first-child { padding-left: 76px; color: var(--text-secondary); }
+.ppto-nvl5 > span:first-child { padding-left: 94px; color: var(--text-tertiary); font-size: 0.92em; }
+
+/* Descargas deshabilitadas para el usuario (clase puesta por clientside_callback en app.py) */
+body.vt-sin-descarga .vt-dl-btns { display: none !important; }
+
+/* ==========================================================================
+   GRÁFICAS PLOTLY Y KPI (2026-10-09): entrada escalonada, hover y barras clicables
+   ========================================================================== */
+.vt-kpi-card { animation: appleFluidReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.row > div:nth-child(2) > .vt-kpi-card { animation-delay: 0.06s; }
+.row > div:nth-child(3) > .vt-kpi-card { animation-delay: 0.12s; }
+.row > div:nth-child(4) > .vt-kpi-card { animation-delay: 0.18s; }
+.vt-kpi-card:hover { transform: translateY(-2px); }
+
+@keyframes argFade { from { opacity: 0; } to { opacity: 1; } }
+.js-plotly-plot { animation: argFade 0.4s ease both; }
+#resumen-grafica-grupo .barlayer .point path { cursor: pointer; transition: opacity 0.15s ease; }
+#resumen-grafica-grupo .barlayer .point path:hover { opacity: 0.8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-kpi-card, .js-plotly-plot, #page-content-area { animation: none !important; }
+  .vt-kpi-card:hover { transform: none; }
+}
+
+/* ==========================================================================
+   CAPA DE DISEÑO 2026-10-19 — vidrio translúcido, acento rojo Aurora,
+   encabezados legibles y tablas con franja de estado. Va al final para
+   sobreescribir sin tocar las reglas anteriores (respaldo: custom.css.bak_*).
+   ========================================================================== */
+:root {
+  --brand-accent: #a82020;
+  --brand-accent-subtle: #fdeceb;
+  --glass: rgba(255, 255, 255, 0.66);
+  --glass-line: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 10px 30px rgba(20, 30, 50, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --r-lg: 16px;
+  --r-md: 12px;
+  --ok-soft: #e9f7ee;
+  --bad-soft: #fdeceb;
+}
+body {
+  background:
+    radial-gradient(900px 480px at 5% -8%, rgba(169, 50, 38, 0.10), transparent 60%),
+    radial-gradient(800px 480px at 100% 0, rgba(198, 40, 40, 0.07), transparent 60%),
+    var(--bg-app);
+  background-attachment: fixed;
+}
+.exec-header, .nav-tabs-custom, .top-filter-bar, .vt-kpi-card, .vt-tree-wrap, .vt-var-wrap,
+.card, .bg-white.border.rounded {
+  background: var(--glass) !important;
+  border: 1px solid var(--glass-line) !important;
+  border-radius: var(--r-lg) !important;
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  box-shadow: var(--glass-shadow) !important;
+}
+.vt-kpi-card { transition: transform 0.3s cubic-bezier(.2, .8, .2, 1); }
+.vt-kpi-card:hover { transform: translateY(-2px); }
+
+/* Pestañas: la activa lleva fondo de acento en vez de subrayado */
+.nav-tabs-custom { padding: 5px 8px; }
+.nav-tabs-custom .nav-link {
+  border-radius: 11px !important;
+  padding: 8px 13px !important;
+  border-bottom: none !important;
+  font-size: 0.82rem !important;
+}
+.nav-tabs-custom .nav-link:hover { background: rgba(127, 138, 155, 0.14) !important; }
+.nav-tabs-custom .nav-link.active {
+  background: var(--brand-accent) !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(168, 32, 32, 0.35) !important;
+}
+
+/* Encabezados del árbol y de las tablas: 12 px, alineados a la derecha como los números */
+.vt-row.vt-head { background: rgba(244, 246, 249, 0.92) !important; border-bottom: 1px solid var(--border-medium) !important; }
+.vt-row.vt-head > span { text-align: right !important; color: var(--text-secondary) !important; font-weight: 700 !important; font-size: 12px; }
+.vt-row.vt-head > span:first-child { text-align: left !important; background: rgba(244, 246, 249, 0.96) !important; }
+.vt-row.vt-tot, .vt-row.vt-tot > span:first-child { background: rgba(244, 246, 249, 0.96) !important; }
+.vt-row { padding: 8px 0; }
+.vt-r26-head { background-color: #ffe9a8 !important; }
+
+/* Tabla de gastos semanales: franja de estado + chip, sin teñir la columna */
+table.vt-var { font-size: 0.9rem; }
+table.vt-var th {
+  text-transform: none; letter-spacing: 0; font-size: 0.82rem; font-weight: 700;
+  color: var(--text-secondary); background: rgba(244, 246, 249, 0.92); text-align: right;
+}
+table.vt-var th:first-child { text-align: left; }
+table.vt-var td { padding: 12px 16px; }
+table.vt-var tr.sem-fav td:first-child { box-shadow: inset 3px 0 0 var(--accent-esmeralda); }
+table.vt-var tr.sem-unf td:first-child { box-shadow: inset 3px 0 0 var(--arg-rojo); }
+table.vt-var td.sem-cuenta { color: var(--text-primary); font-weight: 600; }
+table.vt-var tr.sem-fav td.sem-vs { color: var(--accent-esmeralda); font-weight: 600; }
+table.vt-var tr.sem-unf td.sem-vs { color: var(--arg-rojo); font-weight: 600; }
+.sem-chip { display: inline-block; min-width: 62px; text-align: center; padding: 3px 10px; border-radius: 99px; font-weight: 700; font-size: 0.86rem; }
+tr.sem-fav .sem-chip { background: var(--ok-soft); color: var(--accent-esmeralda); }
+tr.sem-unf .sem-chip { background: var(--bad-soft); color: var(--arg-rojo); }
+
+/* Gráficas: la barra de herramientas queda a la derecha; la leyenda va a la izquierda (charts.py) */
+.js-plotly-plot .modebar { right: 4px !important; }
+
+/* Barra de periodo: el tramo seleccionado y el control llevan el rojo de acento */
+.premium-slider-wrap { --Dash-Fill-Interactive-Strong: var(--brand-accent); }
+.premium-slider-wrap [class*="dash-slider-track"] { background-color: var(--border-medium) !important; }
+.premium-slider-wrap [class*="dash-slider-range"] { background-color: var(--brand-accent) !important; }
+.premium-slider-wrap [class*="dash-slider-thumb"] {
+  border-color: var(--brand-accent) !important;
+  background-color: var(--bg-surface-primary) !important;
+}
+.premium-slider-wrap [class*="dash-slider-thumb"]:hover,
+.premium-slider-wrap [class*="dash-slider-thumb"]:focus,
+.premium-slider-wrap [class*="dash-slider-thumb"]:focus-visible {
+  border-color: var(--brand-accent) !important;
+  box-shadow: 0 0 0 6px rgba(168, 32, 32, 0.22);
+}
+
+/* Botón de modo claro/oscuro del encabezado */
+.theme-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border-medium); background: var(--bg-surface-primary); color: var(--text-primary);
+  border-radius: 99px; padding: 5px 12px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.theme-toggle:hover { border-color: var(--brand-accent); }
+.theme-toggle .th-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .th-sun { display: inline; }
+:root[data-theme="dark"] .theme-toggle .th-moon { display: none; }
+
+/* ==========================================================================
+   MODO OSCURO — se activa con data-theme="dark" en <html> (botón del encabezado,
+   preferencia guardada en localStorage). Redefine los tokens y corrige los
+   colores fijos del árbol y de las tablas.
+   ========================================================================== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-app: #0f131a;
+  --bg-surface-primary: #181e28;
+  --bg-surface-secondary: #1d2431;
+  --bg-dock: rgba(24, 30, 40, 0.9);
+  --border-subtle: #2a3342;
+  --border-medium: #394356;
+  --text-primary: #e8ecf3;
+  --text-secondary: #a9b3c4;
+  --text-tertiary: #8490a3;
+  --brand-accent: #d84a4a;
+  --brand-accent-subtle: #3a1f1f;
+  --arg-rojo: #ff8a80;
+  --accent-carmesi: #ff8a80;
+  --accent-carmesi-subtle: #3a1f1f;
+  --accent-esmeralda: #6fd49a;
+  --accent-esmeralda-subtle: #173225;
+  --accion: #3a4458;
+  --glass: rgba(28, 35, 48, 0.62);
+  --glass-line: rgba(255, 255, 255, 0.09);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --ok-soft: #173225;
+  --bad-soft: #3a1f1f;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-floating: 0 4px 14px rgba(0, 0, 0, 0.45);
+  /* variables que usan los componentes de Dash (dropdowns, sliders, tooltips) */
+  --Dash-Fill-Inverse-Strong: #1d2431;
+  --Dash-Fill-Interactive-Weak: #26304a;
+  --Dash-Fill-Primary-Hover: #2a3342;
+  --Dash-Fill-Primary-Active: #323d50;
+  --Dash-Fill-Disabled: #2a3342;
+  --Dash-Text-Primary: #e8ecf3;
+  --Dash-Text-Strong: #e8ecf3;
+  --Dash-Text-Weak: #8490a3;
+  --Dash-Text-Disabled: #5c677a;
+  --Dash-Stroke-Strong: #394356;
+  --Dash-Stroke-Weak: #2a3342;
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(900px 480px at 5% -8%, rgba(224, 100, 88, 0.12), transparent 60%),
+    radial-gradient(800px 480px at 100% 0, rgba(168, 32, 32, 0.12), transparent 60%),
+    var(--bg-app);
+  background-attachment: fixed;
+}
+:root[data-theme="dark"] .exec-header-badge { background: #232c3b; border-color: #334055; color: var(--text-secondary); }
+:root[data-theme="dark"] .exec-header-title { color: var(--text-primary); }
+:root[data-theme="dark"] .vt-kpi-sub.text-secondary, :root[data-theme="dark"] .vt-kpi-sub.text-muted { color: var(--text-secondary) !important; }
+:root[data-theme="dark"] .vt-sig-baja { color: var(--accent-esmeralda) !important; }
+:root[data-theme="dark"] .vt-sig-cero { color: var(--text-secondary) !important; }
+:root[data-theme="dark"] .segmented-control { background: #232c3b; }
+
+/* Árbol */
+:root[data-theme="dark"] .vt-row { background: transparent; border-bottom-color: #2a3342; }
+:root[data-theme="dark"] .vt-row > span { border-left-color: #222a38; }
+:root[data-theme="dark"] .vt-row > span:first-child { background: #1a212c; box-shadow: 2px 0 3px -1px rgba(0, 0, 0, 0.4); }
+:root[data-theme="dark"] .vt-row:hover, :root[data-theme="dark"] .vt-row:hover > span:first-child { background: #222b3a !important; }
+:root[data-theme="dark"] .vt-row.vt-head,
+:root[data-theme="dark"] .vt-row.vt-tot { background: rgba(29, 36, 49, 0.96) !important; border-color: #394356 !important; }
+:root[data-theme="dark"] .vt-row.vt-head > span:first-child,
+:root[data-theme="dark"] .vt-row.vt-tot > span:first-child { background: rgba(29, 36, 49, 0.98) !important; }
+:root[data-theme="dark"] .vt-row.vt-nvl0 { background: #1c2330; }
+:root[data-theme="dark"] .vt-row.vt-nvl0 > span:first-child { color: #e8ecf3; background: #1c2330; }
+:root[data-theme="dark"] .vt-row.vt-nvl1 > span:first-child { color: #dbe2ee; }
+:root[data-theme="dark"] .vt-row.vt-nvl2 > span:first-child { color: #c4cdda; }
+:root[data-theme="dark"] .vt-row.vt-nvl4 > span:first-child,
+:root[data-theme="dark"] .vt-row.vt-nvl5 > span:first-child { color: #a9b3c4; }
+:root[data-theme="dark"] .vt-r26-head { background-color: #5c4a14 !important; color: #ffffff !important; }
+:root[data-theme="dark"] .vt-r26 { background-color: #2e2812 !important; }
+:root[data-theme="dark"] .vt-var-pos { color: #ff8a80 !important; }
+:root[data-theme="dark"] .vt-var-neg { color: #6fd49a !important; }
+
+/* Tablas de variaciones y de gastos semanales */
+:root[data-theme="dark"] table.vt-var th { background: rgba(29, 36, 49, 0.96); color: var(--text-secondary); }
+:root[data-theme="dark"] table.vt-var td { border-bottom-color: #2a3342; }
+:root[data-theme="dark"] table.vt-var tr:hover td { background-color: #222b3a; }
+:root[data-theme="dark"] table.vt-var td:not(:first-child) { color: #ff8a80; }
+:root[data-theme="dark"] table.vt-var tr.sem-fav td.sem-vs { color: var(--accent-esmeralda); }
+:root[data-theme="dark"] table.vt-var td.sem-cuenta { color: var(--text-primary); }
+
+/* Gráficas Plotly: texto, cuadrícula y globos de ayuda */
+:root[data-theme="dark"] .js-plotly-plot .main-svg text { fill: #e8ecf3 !important; }
+:root[data-theme="dark"] .js-plotly-plot .gridlayer path { stroke: rgba(255, 255, 255, 0.09) !important; }
+:root[data-theme="dark"] .js-plotly-plot .zerolinelayer path { stroke: rgba(255, 255, 255, 0.18) !important; }
+:root[data-theme="dark"] .js-plotly-plot .hoverlayer .hovertext path { fill: #1d2431 !important; stroke: #394356 !important; }
+:root[data-theme="dark"] .js-plotly-plot .hoverlayer .hovertext text { fill: #e8ecf3 !important; }
+:root[data-theme="dark"] .js-plotly-plot .modebar-btn path { fill: #a9b3c4 !important; }
+:root[data-theme="dark"] .js-plotly-plot .modebar-btn:hover path { fill: #e8ecf3 !important; }
+:root[data-theme="dark"] .js-plotly-plot .slice path, :root[data-theme="dark"] .js-plotly-plot .pielayer .slice path { stroke: #181e28 !important; }
+
+/* ==========================================================================
+   ROJO OSCURO DE MARCA (2026-10-20) — mismo rojo del login en filtros, botones, barras y pestañas.
+   El morado venía de las variables --Dash-* que Dash define en :root (#7f4bc4); se redefinen aquí.
+   ========================================================================== */
+:root {
+  --brand-accent: #8b1a1a;
+  --brand-accent-subtle: #fdeceb;
+  --Dash-Fill-Interactive-Strong: #8b1a1a;
+  --Dash-Fill-Interactive-Weak: rgba(139, 26, 26, 0.08);
+  --Dash-Fill-Primary-Hover: rgba(139, 26, 26, 0.06);
+  --Dash-Fill-Primary-Active: rgba(139, 26, 26, 0.13);
+}
+.nav-tabs-custom .nav-link.active { box-shadow: 0 3px 10px rgba(139, 26, 26, 0.35) !important; }
+.form-check-input:checked,
+.form-check-input[type="checkbox"]:indeterminate {
+  background-color: #8b1a1a !important;
+  border-color: #8b1a1a !important;
+}
+.form-check-input:focus { border-color: #8b1a1a !important; box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.18) !important; }
+.btn-primary, .btn-primary:focus {
+  background-color: #8b1a1a !important; border-color: #8b1a1a !important; color: #fff !important;
+}
+.btn-primary:hover, .btn-primary:active { background-color: #6b1212 !important; border-color: #6b1212 !important; }
+.btn-outline-primary { color: #8b1a1a !important; border-color: #8b1a1a !important; }
+.btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary {
+  background-color: #8b1a1a !important; color: #fff !important;
+}
+.premium-slider-wrap [class*="dash-slider-thumb"]:hover,
+.premium-slider-wrap [class*="dash-slider-thumb"]:focus,
+.premium-slider-wrap [class*="dash-slider-thumb"]:focus-visible { box-shadow: 0 0 0 6px rgba(139, 26, 26, 0.22); }
+:root[data-theme="dark"] {
+  --Dash-Fill-Interactive-Strong: #d84a4a;
+  --Dash-Fill-Interactive-Weak: rgba(216, 74, 74, 0.14);
+}
+
+/* Bordes de los filtros: vidrio transparente en vez de línea gris/roja */
+
+.top-filter-bar .dash-dropdown,
+.top-filter-bar .dash-dropdown-trigger,
+.top-filter-bar .form-select,
+.top-filter-bar .form-control,
+.top-filter-bar .segmented-control {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.top-filter-bar .dash-dropdown:hover,
+.top-filter-bar .dash-dropdown-trigger:hover,
+.top-filter-bar .dash-dropdown:focus-within {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(139, 26, 26, 0.35) !important;
+  box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.10) !important;
+}
+:root[data-theme="dark"] .top-filter-bar .dash-dropdown,
+:root[data-theme="dark"] .top-filter-bar .dash-dropdown-trigger,
+:root[data-theme="dark"] .top-filter-bar .segmented-control {
+  background: rgba(29, 36, 49, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ==========================================================================
+   KPI + BORDES DE FILTROS (2026-10-20)
+   KPI: franja superior del color de la serie, valor grande, variacion en chip.
+   Filtros: borde mas opaco para que no se pierdan sobre el vidrio.
+   ========================================================================== */
+.vt-kpi-card {
+  --kpi-c: var(--arg-forecast);
+  position: relative;
+  z-index: 30;   /* la tarjeta (con backdrop-filter = contexto propio) queda sobre los encabezados sticky (z 10-21) de la tabla que sigue: su menú ya no se corta */
+  padding: 18px 22px 16px !important;
+  overflow: visible;   /* era hidden: recortaba los menús desplegables de las tarjetas de filtros (Detalle Cuenta, Cierres, Sobregasto...) */
+  border-top: 3px solid var(--kpi-c) !important;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--kpi-c) 9%, transparent) 0%, transparent 55%), var(--glass) !important;
+}
+.row > div:nth-child(1) > .vt-kpi-card { --kpi-c: var(--serie-real); }
+.row > div:nth-child(2) > .vt-kpi-card { --kpi-c: var(--serie-plan); }
+.row > div:nth-child(3) > .vt-kpi-card { --kpi-c: var(--serie-real-anterior); }
+.row > div:nth-child(4) > .vt-kpi-card { --kpi-c: var(--serie-forecast); }
+.vt-kpi-title { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; letter-spacing: 0.1em; margin-bottom: 10px; }
+.vt-kpi-title::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--kpi-c); flex: 0 0 auto; }
+.vt-kpi-value { font-size: 2.3rem; letter-spacing: -0.03em; }
+.vt-kpi-sub {
+  margin-top: 14px; padding: 4px 10px; border-radius: 99px; font-size: 0.8rem;
+  background: rgba(127, 138, 155, 0.12);
+}
+.vt-kpi-sub:has(.vt-sig-baja), .vt-kpi-sub.vt-sig-baja { background: var(--ok-soft); }
+.vt-kpi-sub:has(.vt-sig-alza), .vt-kpi-sub.vt-sig-alza { background: var(--bad-soft); }
+.top-filter-bar .dash-dropdown,
+.top-filter-bar .dash-dropdown-trigger,
+.top-filter-bar .form-select,
+.top-filter-bar .form-control,
+.top-filter-bar .segmented-control {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(60, 70, 90, 0.42) !important;
+}
+.top-filter-bar .dash-dropdown:hover,
+.top-filter-bar .dash-dropdown-trigger:hover,
+.top-filter-bar .dash-dropdown:focus-within {
+  background: #ffffff !important;
+  border-color: var(--brand-accent) !important;
+}
+:root[data-theme="dark"] .top-filter-bar .dash-dropdown,
+:root[data-theme="dark"] .top-filter-bar .dash-dropdown-trigger,
+:root[data-theme="dark"] .top-filter-bar .segmented-control {
+  background: rgba(29, 36, 49, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+/* ==========================================================================
+   ESTILO iOS PLANO (2026-10-20) — tarjetas blancas, una sola línea fina, sombra
+   suave. Sin brillo rojo de fondo, sin franjas de color, sin borde doble en filtros.
+   Va al final: sobreescribe las capas de vidrio/franja anteriores.
+   ========================================================================== */
+:root {
+  --ios-line: rgba(60, 60, 67, 0.12);
+  --ios-card: rgba(255, 255, 255, 0.55);
+  --ios-fill: rgba(120, 120, 128, 0.08);
+  --ios-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+body, :root[data-theme="light"] body { background: #f5f5f7 !important; }
+
+.exec-header, .nav-tabs-custom, .top-filter-bar, .vt-kpi-card, .vt-tree-wrap, .vt-var-wrap,
+.ppto-tree-wrap, .card, .bg-white.border.rounded {
+  background: var(--ios-card) !important;
+  border: 1px solid var(--ios-line) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--ios-shadow) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+}
+
+/* Filtros: el grupo va sin borde (solo relleno gris); cada control lleva UNA línea fina */
+
+.top-filter-bar .dash-dropdown,
+.top-filter-bar .form-select,
+.top-filter-bar .form-control {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid var(--ios-line) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* el botón interno no lleva borde propio (era el segundo borde) */
+.top-filter-bar .dash-dropdown-trigger,
+.top-filter-bar .dash-dropdown input {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  outline: none !important;
+}
+.top-filter-bar .segmented-control {
+  background: #e5e5ea !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.top-filter-bar .dash-dropdown:hover,
+.top-filter-bar .dash-dropdown:focus-within {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(60, 60, 67, 0.3) !important;
+  box-shadow: 0 0 0 3px rgba(60, 60, 67, 0.08) !important;
+}
+
+/* KPI: sin franja superior, sin degradado, sin punto; chip de variación sobrio */
+.vt-kpi-card {
+  border-top: 1px solid var(--ios-line) !important;
+  background: var(--ios-card) !important;
+}
+.vt-kpi-card:hover { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 10px 24px rgba(0, 0, 0, 0.06) !important; }
+.vt-kpi-title::before { display: none; }
+.vt-kpi-title { letter-spacing: 0.06em; color: var(--text-tertiary); }
+.vt-kpi-sub { background: var(--ios-fill); }
+
+/* Tablas: sin franja de estado a la izquierda; encabezado gris plano */
+table.vt-var tr.sem-fav td:first-child,
+table.vt-var tr.sem-unf td:first-child { box-shadow: none !important; }
+.vt-row.vt-head, .vt-row.vt-tot, .ppto-row.ppto-head {
+  background: var(--ios-fill) !important;
+  border-color: var(--ios-line) !important;
+}
+.vt-row.vt-head > span:first-child, .vt-row.vt-tot > span:first-child { background: var(--ios-fill) !important; }
+table.vt-var th { background: var(--ios-fill); border-bottom: 1px solid var(--ios-line); }
+.vt-row, .ppto-row, table.vt-var td { border-bottom-color: rgba(60, 60, 67, 0.08); }
+.vt-row > span { border-left: none; }
+
+/* Pestaña activa sin sombra roja */
+.nav-tabs-custom .nav-link.active { box-shadow: none !important; }
+
+/* Árbol con Forecast + FCST del servidor: concepto + 16 columnas */
+.vt-row.vt-row-fc.vt-row-fcs {
+  grid-template-columns: 340px repeat(16, minmax(132px, 1fr));
+  min-width: 2452px;
+}
+
+/* Pestañas centradas y sin la línea inferior de Bootstrap */
+.nav-tabs-custom { justify-content: center; }
+.nav-tabs-custom .nav, .nav-tabs-custom .nav-tabs, .nav-tabs-custom ul {
+  justify-content: center !important;
+  flex-wrap: nowrap;
+  border-bottom: none !important;
+  margin: 0 auto;
+}
+.nav-tabs-custom .nav-item { flex: 0 0 auto; }
+
+/* Encabezado: los avisos son texto plano; solo Oscuro y Cerrar sesión parecen botón */
+.exec-header-badge {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: var(--text-tertiary) !important;
+  font-weight: 500;
+}
+
+/* Árboles y tablas: filas OPACAS (con la tarjeta translúcida, la columna fija y el TOTAL se traslapaban) */
+.vt-tree-wrap, .vt-var-wrap, .ppto-tree-wrap { background: #ffffff !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+.vt-row, .vt-row > span:first-child { background: #ffffff !important; }
+.vt-row.vt-nvl0, .vt-row.vt-nvl0 > span:first-child { background: #f8f8fa !important; }
+.vt-row.vt-head, .vt-row.vt-tot, .vt-row.vt-head > span:first-child, .vt-row.vt-tot > span:first-child { background: #f2f2f7 !important; }
+.vt-row:hover, .vt-row:hover > span:first-child { background: #f5f5f8 !important; }
+.vt-row.vt-tot { z-index: 20 !important; box-shadow: 0 -1px 0 rgba(60, 60, 67, 0.12); }
+.vt-row.vt-tot > span:first-child { z-index: 21 !important; }
+.vt-row > span:first-child { box-shadow: none !important; }
+:root[data-theme="dark"] .vt-tree-wrap, :root[data-theme="dark"] .vt-var-wrap, :root[data-theme="dark"] .ppto-tree-wrap { background: #1c1c1e !important; }
+:root[data-theme="dark"] .vt-row, :root[data-theme="dark"] .vt-row > span:first-child { background: #1c1c1e !important; }
+:root[data-theme="dark"] .vt-row.vt-nvl0, :root[data-theme="dark"] .vt-row.vt-nvl0 > span:first-child { background: #232325 !important; }
+:root[data-theme="dark"] .vt-row.vt-head, :root[data-theme="dark"] .vt-row.vt-tot,
+:root[data-theme="dark"] .vt-row.vt-head > span:first-child, :root[data-theme="dark"] .vt-row.vt-tot > span:first-child { background: #2c2c2e !important; }
+:root[data-theme="dark"] .vt-row:hover, :root[data-theme="dark"] .vt-row:hover > span:first-child { background: #2a2a2d !important; }
+
+/* Modo oscuro: mismas reglas con superficies oscuras */
+:root[data-theme="dark"] body { background: #000000 !important; }
+:root[data-theme="dark"] .exec-header, :root[data-theme="dark"] .nav-tabs-custom,
+:root[data-theme="dark"] .top-filter-bar, :root[data-theme="dark"] .vt-kpi-card,
+:root[data-theme="dark"] .vt-tree-wrap, :root[data-theme="dark"] .vt-var-wrap,
+:root[data-theme="dark"] .ppto-tree-wrap, :root[data-theme="dark"] .card {
+  background: #1c1c1e !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  box-shadow: none !important;
+}
+:root[data-theme="dark"] .top-filter-bar .dash-dropdown { background: #1c1c1e !important; border-color: rgba(255, 255, 255, 0.14) !important; }
+:root[data-theme="dark"] .top-filter-bar .segmented-control { background: #3a3a3c !important; }
+:root[data-theme="dark"] .vt-kpi-sub { background: #2c2c2e; }
+:root[data-theme="dark"] .vt-row.vt-head, :root[data-theme="dark"] .vt-row.vt-tot,
+:root[data-theme="dark"] .vt-row.vt-head > span:first-child, :root[data-theme="dark"] .vt-row.vt-tot > span:first-child,
+:root[data-theme="dark"] table.vt-var th { background: #2c2c2e !important; }
+

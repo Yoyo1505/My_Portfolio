@@ -1,0 +1,118 @@
+# -*- coding: utf-8 -*-
+# ===============================================================================
+# config.yaml — CONFIGURACIÓN CENTRALIZADA DEL DASHBOARD
+# ===============================================================================
+# Centraliza todas las constantes, dimensiones, jerarquías y configuraciones
+# que se usan en app.py y build_data.py
+
+# Medidas principales
+MEDIDAS:
+  - "Real_2025"
+  - "Plan_2026"
+  - "Real_2026"
+  - "Nvo_Plan_2026"
+
+# Paleta de colores oficial
+COLOR:
+  Real_2025: "#ccd1d9"
+  Real_2026: "#f1948a"
+  Plan_2026: "#a93226"
+  Nvo_Plan_2026: "#5dade2"
+  Forecast_Cierre: "#8a93a0"
+
+# Nombres públicos
+NOMBRE:
+  Real_2025: "Real 2025"
+  Real_2026: "Real 2026"
+  Plan_2026: "Plan 2026"
+  Nvo_Plan_2026: "Nvo Plan"
+  Forecast_Cierre: "Forecast"
+
+# Dimensiones
+DIMS:
+  division: ["División", "cat_Direccion_Division"]
+  territorio: ["Territorio", "cat_Subdireccion_Territorio"]
+  region: ["Región", "cat_Subdireccion_Region"]
+  zona: ["Zona", "cat_Subdireccion_Zona"]
+  pdc: ["PDC", "cat_PDC"]
+  ceco: ["CECO", "ID_CENTRO_COSTOS"]
+  grupo_cuentas: ["Grupo de Cuentas", "cat_Grupo_de_Cuentas"]
+  cuentas: ["Cuentas", "cat_Cuentas"]
+  pospre: ["PosPre", "cat_PosPre"]
+  agrupador_reales: ["Agrupador Reales", "cat_Agrupador_Reales"]
+  agrupa1: ["Agrupa 1", "cat_Agrupa1"]
+  agrupa2: ["Agrupa 2", "cat_Agrupa2"]
+  agrupa3: ["Agrupa 3", "cat_Agrupa3"]
+  global: ["Global", null]
+  # 2026-08-24: eliminadas formato/naturaleza/agrupador/clasificacion2/
+  # segmento1/segmento2/estatus — sus columnas ya no viajan en el consolidado
+  # (ver COLS_ESTRUCT/COLS_CUENTAS en build_data.py); ninguna pestaña las usaba.
+
+# Jerarquías territoriales
+HIER_TERR:
+  - "agrupa1"
+  - "division"
+  - "territorio"
+  - "zona"
+  - "region"
+  - "pdc"
+
+# Jerarquías de cuentas
+HIER_CTA:
+  - "agrupa1"
+  - "grupo_cuentas"
+  - "cuentas"
+  - "pospre"
+
+# Alias que pueden cruzar Forecast
+ALIAS_FORECAST_CUENTA:
+  - "global"
+  - "grupo_cuentas"
+  - "cuentas"
+  - "division"
+
+# Orden fijo de División
+ORDEN_DIV:
+  Division Norte: 0
+  Division Centro: 1
+  Division Sur: 2
+  Concentrador: 3
+  "Cerrados y Cancelados": 4
+  Corporativo: 5
+  Expansión: 6
+  "Fuerza Proactiva": 7
+  Otros: 8
+
+# Rangos de semanas
+QRANGO_TRI:
+  Q1: [1, 13]
+  Q2: [14, 26]
+  Q3: [27, 39]
+  Q4: [40, 53]
+  FY: [1, 53]
+
+# Series por defecto
+PLANES:
+  - "Plan_2026"
+  - "Nvo_Plan_2026"
+  - "Forecast_Cierre"
+
+MEDIDAS_VISIBLES:
+  - "Real_2025"
+  - "Plan_2026"
+  - "Real_2026"
+
+# Nombres de meses
+NOM_MES:
+  1: "Enero"
+  2: "Febrero"
+  3: "Marzo"
+  4: "Abril"
+  5: "Mayo"
+  6: "Junio"
+  7: "Julio"
+  8: "Agosto"
+  9: "Septiembre"
+  10: "Octubre"
+  11: "Noviembre"
+  12: "Diciembre"

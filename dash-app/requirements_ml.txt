@@ -1,0 +1,12 @@
+# Solo para Cashi ML y el monitoreo de atipicos (entorno aparte, Python 3.12)
+# El tablero y Cashi solo LEEN los resultados; no necesitan estas librerias para correr.
+scikit-learn==1.9.1
+lightgbm==4.7.0
+RapidFuzz==3.14.6
+joblib==1.6.0
+scipy==1.18.1
+numpy==2.5.2
+pandas==3.0.5
+polars==1.44.1
+duckdb==1.5.5
+pytest==9.1.1
