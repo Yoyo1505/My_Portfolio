@@ -4,6 +4,10 @@ Applied finance and AI projects, each with a live browser demo, its source code,
 
 ![Opex Control tour](docs/opex-control/media/tour.gif)
 
+## Tour of the published site
+
+![Site tour](docs/media/site-tour.gif)
+
 ## Projects
 
 | | Project | What it is | Demo | Code |

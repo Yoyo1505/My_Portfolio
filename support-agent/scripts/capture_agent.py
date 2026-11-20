@@ -32,7 +32,7 @@ def main():
             WebDriverWait(d, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".order")))
             box = d.find_element(By.ID, "q")
             box.send_keys(q, Keys.ENTER)
-            WebDriverWait(d, 900).until(lambda dr: "Thinking" not in dr.find_element(By.ID, "thread").text and len(dr.find_elements(By.CSS_SELECTOR, ".b")) >= 1)
+            WebDriverWait(d, 1500).until(lambda dr: "Thinking" not in dr.find_element(By.ID, "thread").text and len(dr.find_elements(By.CSS_SELECTOR, ".b")) >= 1)
             time.sleep(1.0)
             png = d.get_screenshot_as_png()
             (OUT / f"{TAG}-{i:02d}.png").write_bytes(png)
